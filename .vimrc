@@ -50,6 +50,8 @@ if has('syntax') && has('eval')
   packadd! matchit
 endif
 
+execute pathogen#infect()
+
 set expandtab
 set shiftwidth=4
 set softtabstop=4
@@ -57,4 +59,12 @@ set softtabstop=4
 set termguicolors
 set background=dark
 color solarized8
+set number
 syntax on
+
+set backupdir=~/.vim/backups
+set directory=~/.vim/backups//
+
+set autoread
+
+autocmd BufWritePost *.c silent ! clang-format -i -style=Google %:p
