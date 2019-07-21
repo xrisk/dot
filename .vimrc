@@ -66,28 +66,31 @@ syntax on
 " updatecount (200 keystrokes) and updatetime
 " (4 seconds) are fine
 set swapfile
-set directory^=~/.vim/swap//
+set directory=~/.vim/swap//
 
 " protect against crash-during-write
 set writebackup
 " but do not persist backup after successful write
-set nobackup
+" set nobackup
 " use rename-and-write-new method whenever safe
 set backupcopy=auto
 " patch required to honor double slash at end
 if has("patch-8.1.0251")
 	" consolidate the writebackups -- not a big
 	" deal either way, since they usually get deleted
-	set backupdir^=~/.vim/backup//
+	set backupdir=~/.vim/backup//
 end
 
 " persist the undo tree for each file
 set undofile
-set undodir^=~/.vim/undo//
-
+set undodir=~/.vim/undo//
 
 set autoread
 
-autocmd BufWritePost *.c silent ! clang-format -i -style=Google %:p
-autocmd BufWritePost *.cpp silent ! clang-format -i style=Google %:p
-autocmd BufWritePost *.h silent ! clang-format -i style=Google %:p
+autocmd BufWritePost *.c silent ! clang-format -i -style=LLVM %:p
+autocmd BufWritePost *.cpp silent ! clang-format -i -style=LLVM %:p
+autocmd BufWritePost *.h silent ! clang-format -i -style=LLVM %:p
+
+set clipboard=unnamed
+
+let g:airline_theme='solarized'
