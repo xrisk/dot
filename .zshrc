@@ -108,9 +108,9 @@ alias kali="docker run -ti --rm --mount src=kali-root,dst=/root --mount src=kali
 export WORKON_HOME=~/Envs
 export VIRTUALENVWRAPPER_PYTHON=$(which python3)
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
-source /usr/local/bin/virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper_lazy.sh
 
-export PATH="$PATH:/Users/xrisk/Dev/emsdk:/Users/xrisk/Dev/emsdk/fastcomp/emscripten:/Users/xrisk/Dev/emsdk/node/8.9.1_64bit/bin"
+# export PATH="$PATH:/Users/xrisk/Dev/emsdk:/Users/xrisk/Dev/emsdk/fastcomp/emscripten:/Users/xrisk/Dev/emsdk/node/8.9.1_64bit/bin"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -119,3 +119,10 @@ alias clang++="clang++ -Wall -O2"
 alias grep="ggrep --color"
 alias gcc="clang -Wall -O2"
 alias g++="clang++ -Wall -std=c++14 -O2"
+export PATH="/usr/local/sbin:$PATH"
+
+. /usr/local/etc/profile.d/z.sh
+
+alias git=hub
+
+export PATH=~/bin:"$PATH"
