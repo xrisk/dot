@@ -126,3 +126,4 @@ export PATH="/usr/local/sbin:$PATH"
 alias git=hub
 
 export PATH=~/bin:"$PATH"
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

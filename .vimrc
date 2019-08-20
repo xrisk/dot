@@ -6,6 +6,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'lervag/vimtex'
+Plug 'xavierd/clang_complete'
+Plug 'tpope/vim-sleuth'
 call plug#end()
 
 set mouse=a
@@ -48,6 +50,7 @@ set autoread
 autocmd BufWritePost *.c silent ! clang-format -i -style=LLVM %:p
 autocmd BufWritePost *.cpp silent ! clang-format -i -style=LLVM %:p
 autocmd BufWritePost *.h silent ! clang-format -i -style=LLVM %:p
+
 autocmd BufWritePre *.py execute ":Black"
 
 set clipboard=unnamed
@@ -56,3 +59,10 @@ let g:airline_theme='solarized'
 let g:tex_flavor = 'latex'
 let g:vimtex_compiler_method = 'latexmk'
 let g:vimtex_view_method = 'skim'
+let g:vimtex_quickfix_open_on_warning = 0
+let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+
+nnoremap <leader>m :silent make\|redraw!\|cw<CR>
+
+noremap <Esc-Right> gT
+
