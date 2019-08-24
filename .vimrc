@@ -8,6 +8,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'lervag/vimtex'
 Plug 'xavierd/clang_complete'
 Plug 'tpope/vim-sleuth'
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
 set mouse=a
@@ -66,3 +67,7 @@ nnoremap <leader>m :silent make\|redraw!\|cw<CR>
 
 noremap <Esc-Right> gT
 
+noremap <silent> k gk
+noremap <silent> j gj
+noremap <silent> 0 g0
+noremap <silent> $ g$
