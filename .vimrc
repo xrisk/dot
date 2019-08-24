@@ -9,6 +9,7 @@ Plug 'lervag/vimtex'
 Plug 'xavierd/clang_complete'
 Plug 'tpope/vim-sleuth'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'lifepillar/vim-solarized8'
 call plug#end()
 
 set mouse=a
@@ -57,7 +58,7 @@ autocmd BufWritePre *.py execute ":Black"
 set clipboard=unnamed
 
 let g:airline_theme='solarized'
-let g:tex_flavor = 'latex'
+" let g:vimtex_latexmk_options='-pdf -xelatex'
 let g:vimtex_compiler_method = 'latexmk'
 let g:vimtex_view_method = 'skim'
 let g:vimtex_quickfix_open_on_warning = 0
