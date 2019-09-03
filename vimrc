@@ -1,7 +1,6 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'psf/black'
-Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -10,6 +9,9 @@ Plug 'xavierd/clang_complete'
 Plug 'tpope/vim-sleuth'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'lifepillar/vim-solarized8'
+Plug 'prettier/vim-prettier', {'do': 'npm install'}
+Plug 'Valloric/MatchTagAlways'
+Plug 'tpope/vim-commentary'
 call plug#end()
 
 set mouse=a
@@ -72,3 +74,10 @@ noremap <silent> k gk
 noremap <silent> j gj
 noremap <silent> 0 g0
 noremap <silent> $ g$
+
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
+
+set relativenumber
+
+nnoremap <C-b> :NERDTreeToggle<CR>

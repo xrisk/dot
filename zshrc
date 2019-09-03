@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+#
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/xrisk/.oh-my-zsh"
@@ -105,7 +106,7 @@ prompt pure
 
 alias kali="docker run -ti --rm --mount src=kali-root,dst=/root --mount src=kali-postgres,dst=/var/lib/postgresql xrisk-kali-full"
 
-export WORKON_HOME=~/Envs
+export WORKON_HOME=~/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=$(which python3)
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
 source /usr/local/bin/virtualenvwrapper_lazy.sh
@@ -119,6 +120,8 @@ alias clang++="clang++ -Wall -O2"
 alias grep="ggrep --color"
 alias gcc="clang -Wall -O2"
 alias g++="clang++ -Wall -std=c++14 -O2"
+alias startvm="VBoxManage startvm Ubuntu --type headless"
+
 export PATH="/usr/local/sbin:$PATH"
 
 . /usr/local/etc/profile.d/z.sh
@@ -127,3 +130,5 @@ alias git=hub
 
 export PATH=~/bin:"$PATH"
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export PATH="/Users/xrisk/Library/Python/3.7/bin":$PATH
