@@ -86,6 +86,8 @@ export LANG=en_US.UTF-8
 # else
 #   export EDITOR='mvim'
 # fi
+#
+export EDITOR=vim
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -132,3 +134,6 @@ export PATH=~/bin:"$PATH"
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 export PATH="/Users/xrisk/Library/Python/3.7/bin":$PATH
+
+export GOPATH=~/go
+export GOBIN=~/go/bin

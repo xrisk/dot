@@ -12,6 +12,8 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'prettier/vim-prettier', {'do': 'npm install'}
 Plug 'Valloric/MatchTagAlways'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 call plug#end()
 
 set mouse=a
@@ -68,8 +70,6 @@ let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang
 
 nnoremap <leader>m :silent make\|redraw!\|cw<CR>
 
-noremap <Esc-Right> gT
-
 noremap <silent> k gk
 noremap <silent> j gj
 noremap <silent> 0 g0
@@ -78,6 +78,8 @@ noremap <silent> $ g$
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
 
-set relativenumber
+" set relativenumber
 
 nnoremap <C-b> :NERDTreeToggle<CR>
+
+set title
