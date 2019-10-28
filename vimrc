@@ -53,9 +53,9 @@ set undodir=~/.vim/undo//
 
 set autoread
 
-autocmd BufWritePost *.c silent ! clang-format -i -style=LLVM %:p
-autocmd BufWritePost *.cpp silent ! clang-format -i -style=LLVM %:p
-autocmd BufWritePost *.h silent ! clang-format -i -style=LLVM %:p
+autocmd BufWritePost *.c silent ! clang-format -i -style=LLVM "%:p"
+autocmd BufWritePost *.cpp silent ! clang-format -i -style=LLVM "%:p"
+autocmd BufWritePost *.h silent ! clang-format -i -style=LLVM "%:p"
 
 autocmd BufWritePre *.py execute ":Black"
 

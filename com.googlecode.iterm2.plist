@@ -70,7 +70,7 @@
 	<key>NSWindow Frame NSNavPanelAutosaveName</key>
 	<string>240 246 799 448 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>32 313 570 452 0 0 1280 777 </string>
+	<string>640 0 634 777 0 0 1280 777 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -349,6 +349,8 @@
 			<key>Description</key>
 			<string>Default</string>
 			<key>Disable Window Resizing</key>
+			<true/>
+			<key>Draw Powerline Glyphs</key>
 			<true/>
 			<key>Flashing Bell</key>
 			<false/>
@@ -683,7 +685,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>SourceCodePro-Medium 14</string>
+			<string>SourceCodePro-Regular 14</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -731,7 +733,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Thin Strokes</key>
-			<integer>3</integer>
+			<integer>0</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Unlimited Scrollback</key>
@@ -760,6 +762,7 @@
 	</array>
 	<key>NoSyncBFPRecents</key>
 	<array>
+		<string>Fira Mono</string>
 		<string>Source Code Pro</string>
 		<string>Monaco</string>
 	</array>
@@ -768,12 +771,12 @@
 		<key>screenFrame</key>
 		<string>{{0, 0}, {1280, 800}}</string>
 		<key>topLeft</key>
-		<string>{99, 663}</string>
+		<string>{32, 753}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
 	<string>5D48C5A1-CB45-47B7-A6BF-2FDCA0D1318D</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>2</integer>
+	<integer>4</integer>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
