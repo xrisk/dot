@@ -136,11 +136,11 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export PATH="/Users/xrisk/Library/Python/3.7/bin":$PATH
 export PATH=$PATH:$(go env GOPATH)/bin
 
-export HOMEBREW_GITHUB_API_TOKEN=bccd843f20e5526f3dec87db16406fe9491d03b4
-
 source ~/.poetry/env
 alias s=spotify
 
 export PATH="$PATH:/Users/xrisk/dev/flutter/bin"
+
+source ~/.secrets.sh
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
