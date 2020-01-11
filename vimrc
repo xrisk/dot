@@ -14,6 +14,8 @@ Plug 'Valloric/MatchTagAlways'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'wlangstroth/vim-racket'
+" Plug 'https://www.vim.org/scripts/script.php?script_id=1230'
 call plug#end()
 
 set mouse=a
@@ -81,5 +83,10 @@ autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.gra
 " set relativenumber
 
 nnoremap <C-b> :NERDTreeToggle<CR>
+nnoremap <leader>r ! racket "%:p"<CR>
 
 set title
+
+let g:black_linelength = 79
+
+" autocmd BufWritePost *.sql silent ! pg_format "%:p" -u 1 -o "%:p"
