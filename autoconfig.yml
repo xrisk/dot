@@ -13,6 +13,17 @@ settings:
       w: session-save
       wq: quit --save
       wqa: quit --save
+  bindings.commands:
+    global:
+      normal:
+        J: tab-prev
+        K: tab-next
+        j: scroll down
+        k: scroll up
+  content.cookies.accept:
+    global: all
+  content.cookies.store:
+    global: true
   content.windowed_fullscreen:
     global: true
   fonts.hints:
@@ -35,10 +46,14 @@ settings:
     global: asdfghjkl
   hints.uppercase:
     global: true
+  input.insert_mode.auto_load:
+    global: true
   scrolling.smooth:
     global: true
+  tabs.position:
+    global: top
   url.searchengines:
     global:
-      DEFAULT: https://google.com?q={}
+      DEFAULT: https://google.com/search?q={}
   window.hide_decoration:
     global: true
