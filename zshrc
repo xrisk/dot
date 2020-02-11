@@ -144,3 +144,5 @@ export PATH="$PATH:/Users/xrisk/dev/flutter/bin"
 source ~/.secrets.sh
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias gs="git status"

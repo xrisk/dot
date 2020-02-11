@@ -16,22 +16,34 @@ settings:
   bindings.commands:
     global:
       normal:
+        ',M': hint links spawn mpv {hint-url}
+        ',b': config-cycle content.host_blocking.enabled
+        ',m': spawn mpv {url}
         J: tab-prev
         K: tab-next
+        M: hint links spawn mpv {hint-url}
         j: scroll down
         k: scroll up
+  completion.open_categories:
+    global:
+    - searchengines
+    - quickmarks
+    - bookmarks
+    - history
   content.cookies.accept:
     global: all
   content.cookies.store:
     global: true
+  content.host_blocking.enabled:
+    global: false
   content.windowed_fullscreen:
     global: true
   fonts.hints:
-    global: bold 10pt sans_serif
+    global: 14pt sans-serif
   fonts.monospace:
-    global: Source Code Pro
+    global: Fira Code
   fonts.prompts:
-    global: 10pt sans-serif
+    global: 10pt sans-erif
   fonts.statusbar:
     global: 16pt monospace
   fonts.tabs:
@@ -43,7 +55,7 @@ settings:
   fonts.web.family.standard:
     global: '"Helvetica Neue"'
   hints.chars:
-    global: asdfghjkl
+    global: asdfghjklzxcvbnmqwertyuiop
   hints.uppercase:
     global: true
   input.insert_mode.auto_load:
@@ -54,6 +66,6 @@ settings:
     global: top
   url.searchengines:
     global:
-      DEFAULT: https://google.com/search?q={}
+      DEFAULT: https://duckduckgo.com/?q={}
   window.hide_decoration:
-    global: true
+    global: false

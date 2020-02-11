@@ -15,7 +15,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'wlangstroth/vim-racket'
-" Plug 'https://www.vim.org/scripts/script.php?script_id=1230'
+Plug 'davidhalter/jedi-vim'
+Plug 'xavierchow/vim-swagger-preview'
 call plug#end()
 
 set mouse=a
@@ -77,8 +78,10 @@ noremap <silent> j gj
 noremap <silent> 0 g0
 noremap <silent> $ g$
 
-let g:prettier#autoformat = 0
+" let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
+
+" autocmd BufWritePost *.py call flake8#Flake8()
 
 " set relativenumber
 

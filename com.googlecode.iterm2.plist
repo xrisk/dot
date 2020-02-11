@@ -211,6 +211,8 @@
 		<dict>
 			<key>ASCII Anti Aliased</key>
 			<true/>
+			<key>ASCII Ligatures</key>
+			<true/>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
@@ -820,7 +822,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>SourceCodePro-Regular 14</string>
+			<string>FiraCode-Retina 14</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -874,7 +876,7 @@
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
-			<true/>
+			<false/>
 			<key>Use Bright Bold</key>
 			<false/>
 			<key>Use Italic Font</key>
@@ -1614,6 +1616,7 @@
 	</array>
 	<key>NoSyncBFPRecents</key>
 	<array>
+		<string>Fira Code</string>
 		<string>Fira Mono</string>
 		<string>Source Code Pro</string>
 		<string>Monaco</string>
@@ -1627,12 +1630,12 @@
 		<key>screenFrame</key>
 		<string>{{0, 0}, {1280, 800}}</string>
 		<key>topLeft</key>
-		<string>{154, 641}</string>
+		<string>{217, 629}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
 	<string>5D48C5A1-CB45-47B7-A6BF-2FDCA0D1318D</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>79</integer>
+	<integer>92</integer>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -2429,7 +2432,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2020-01-08T16:10:29Z</date>
+	<date>2020-01-31T01:59:17Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SUUpdateRelaunchingMarker</key>
@@ -2445,7 +2448,7 @@
 	<key>StatusBarPosition</key>
 	<integer>0</integer>
 	<key>TabStyleWithAutomaticOption</key>
-	<integer>6</integer>
+	<integer>1</integer>
 	<key>TabViewType</key>
 	<integer>0</integer>
 	<key>VisualIndicatorForEsc</key>
