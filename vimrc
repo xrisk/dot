@@ -1,6 +1,6 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
-Plug 'psf/black'
+Plug 'psf/black', { 'tag': '19.10b0' }
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -15,8 +15,10 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'wlangstroth/vim-racket'
-Plug 'davidhalter/jedi-vim'
+" Plug 'davidhalter/jedi-vim'
 Plug 'xavierchow/vim-swagger-preview'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'nvie/vim-flake8'
 call plug#end()
 
 set mouse=a
@@ -26,7 +28,7 @@ set shiftwidth=4
 set softtabstop=4
 
 set termguicolors
-set background=dark
+set background=light
 color solarized8
 set number
 syntax on
@@ -65,11 +67,11 @@ autocmd BufWritePre *.py execute ":Black"
 set clipboard=unnamed
 
 let g:airline_theme='solarized'
-" let g:vimtex_latexmk_options='-pdf -xelatex'
+let g:vimtex_latexmk_options='-pdf -xelatex'
 let g:vimtex_compiler_method = 'latexmk'
 let g:vimtex_view_method = 'skim'
 let g:vimtex_quickfix_open_on_warning = 0
-let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libclang.dylib'
 
 nnoremap <leader>m :silent make\|redraw!\|cw<CR>
 
@@ -79,9 +81,9 @@ noremap <silent> 0 g0
 noremap <silent> $ g$
 
 " let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml,*.html Prettier
 
-" autocmd BufWritePost *.py call flake8#Flake8()
+autocmd BufWritePost *.py call flake8#Flake8()
 
 " set relativenumber
 
@@ -93,3 +95,12 @@ set title
 let g:black_linelength = 79
 
 " autocmd BufWritePost *.sql silent ! pg_format "%:p" -u 1 -o "%:p"
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+" let g:ycm_clangd_binary_path = "/Users/xrisk/etc/clangd"
+let g:ycm_confirm_extra_conf = 0
+set guifont=SFMono-Regular:h13
+
+aug QFClose
+  au!
+  au WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
+aug END

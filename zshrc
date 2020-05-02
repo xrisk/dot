@@ -1,6 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 #
+#
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/xrisk/.oh-my-zsh"
@@ -69,7 +70,7 @@ export ZSH="/Users/xrisk/.oh-my-zsh"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker)
+plugins=(git docker poetry z)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -80,31 +81,10 @@ export MANPATH="/usr/local/man:$MANPATH"
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-#
 export EDITOR=vim
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 autoload -U promptinit; promptinit
 prompt pure
-. /usr/local/etc/profile.d/z.sh
-
 
 alias kali="docker run -ti --rm --mount src=kali-root,dst=/root --mount src=kali-postgres,dst=/var/lib/postgresql xrisk-kali-full"
 
@@ -112,8 +92,6 @@ export WORKON_HOME=~/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=$(which python3)
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
 source /usr/local/bin/virtualenvwrapper_lazy.sh
-
-# export PATH="$PATH:/Users/xrisk/Dev/emsdk:/Users/xrisk/Dev/emsdk/fastcomp/emscripten:/Users/xrisk/Dev/emsdk/node/8.9.1_64bit/bin"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -126,8 +104,6 @@ alias startvm="VBoxManage startvm Ubuntu --type headless"
 
 export PATH="/usr/local/sbin:$PATH"
 
-. /usr/local/etc/profile.d/z.sh
-
 alias git=hub
 
 export PATH=~/bin:"$PATH"
@@ -136,13 +112,20 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export PATH="/Users/xrisk/Library/Python/3.7/bin":$PATH
 export PATH=$PATH:$(go env GOPATH)/bin
 
-source ~/.poetry/env
-alias s=spotify
-
 export PATH="$PATH:/Users/xrisk/dev/flutter/bin"
 
 source ~/.secrets.sh
 
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 alias gs="git status"
+
+export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
+export PATH=~/sketch:$PATH
+
+eval "$(pyenv init -)"
+
+
+source ~/.poetry/env
+export BAT_STYLE="Solarized"
+
+export PATH=~/bin:$PATH
+
