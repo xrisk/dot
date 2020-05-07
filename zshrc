@@ -70,7 +70,7 @@ export ZSH="/Users/xrisk/.oh-my-zsh"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker poetry z)
+plugins=(git docker z)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -87,11 +87,6 @@ autoload -U promptinit; promptinit
 prompt pure
 
 alias kali="docker run -ti --rm --mount src=kali-root,dst=/root --mount src=kali-postgres,dst=/var/lib/postgresql xrisk-kali-full"
-
-export WORKON_HOME=~/.virtualenvs
-export VIRTUALENVWRAPPER_PYTHON=$(which python3)
-export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
-source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -122,7 +117,6 @@ export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
 export PATH=~/sketch:$PATH
 
 eval "$(pyenv init -)"
-
 
 source ~/.poetry/env
 export BAT_STYLE="Solarized"

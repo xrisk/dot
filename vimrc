@@ -1,6 +1,6 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
-Plug 'psf/black', { 'tag': '19.10b0' }
+Plug 'psf/black', { 'branch': 'stable' }
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -19,6 +19,7 @@ Plug 'wlangstroth/vim-racket'
 Plug 'xavierchow/vim-swagger-preview'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'nvie/vim-flake8'
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
 set mouse=a
@@ -104,3 +105,5 @@ aug QFClose
   au!
   au WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
 aug END
+
+let g:rustfmt_autosave = 1
