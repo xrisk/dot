@@ -7,7 +7,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'lervag/vimtex'
 Plug 'xavierd/clang_complete'
 Plug 'tpope/vim-sleuth'
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'lifepillar/vim-solarized8'
 Plug 'prettier/vim-prettier', {'do': 'npm install'}
 Plug 'Valloric/MatchTagAlways'
@@ -20,6 +20,13 @@ Plug 'xavierchow/vim-swagger-preview'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'nvie/vim-flake8'
 Plug 'rust-lang/rust.vim'
+Plug 'https://github.com/tpope/vim-liquid'
+" Plug 'vim-syntastic/syntastic'
+" Plug 'https://github.com/wagnerf42/vim-clippy'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'gruvbox-community/gruvbox'
+Plug 'https://github.com/Yggdroot/indentLine'
 call plug#end()
 
 set mouse=a
@@ -29,8 +36,8 @@ set shiftwidth=4
 set softtabstop=4
 
 set termguicolors
-set background=light
-color solarized8
+set background=dark
+colorscheme gruvbox
 set number
 syntax on
 
@@ -67,7 +74,7 @@ autocmd BufWritePre *.py execute ":Black"
 
 set clipboard=unnamed
 
-let g:airline_theme='solarized'
+let g:airline_theme='gruvbox'
 let g:vimtex_latexmk_options='-pdf -xelatex'
 let g:vimtex_compiler_method = 'latexmk'
 let g:vimtex_view_method = 'skim'
@@ -82,7 +89,7 @@ noremap <silent> 0 g0
 noremap <silent> $ g$
 
 " let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml,*.html Prettier
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml,*.html,*.md Prettier
 
 autocmd BufWritePost *.py call flake8#Flake8()
 
@@ -107,3 +114,26 @@ aug QFClose
 aug END
 
 let g:rustfmt_autosave = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_aggregate_errors = 1
+
+autocmd FileType rust let g:ycm_show_diagnostics_ui = 0
+
+let g:syntastic_rust_checkers = ['cargo', 'clippy']
+let g:syntastic_html_checkers = []
+
+
+nnoremap <C-p> :Files<CR>
+nnoremap gd :YcmCompleter GoTo<CR>
+
+" TODO: set this depending on if parcel is running
+autocmd FileType html,css,js,scss set backupcopy=yes
+
