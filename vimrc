@@ -1,6 +1,7 @@
+
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
-Plug 'psf/black', { 'branch': 'stable' }
+Plug 'psf/black'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -27,7 +28,24 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'https://github.com/Yggdroot/indentLine'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'alx741/vim-hindent'
+Plug 'leafgarland/typescript-vim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 call plug#end()
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"
+let g:UltiSnipsExpandTrigger="kj"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 set mouse=a
 
@@ -36,8 +54,8 @@ set shiftwidth=4
 set softtabstop=4
 
 set termguicolors
-set background=dark
-colorscheme gruvbox
+set background=light
+colorscheme solarized8
 set number
 syntax on
 
@@ -66,20 +84,25 @@ set undodir=~/.vim/undo//
 
 set autoread
 
-autocmd BufWritePost *.c silent ! clang-format -i -style=LLVM "%:p"
+" autocmd BufWritePost *.c silent ! clang-format -i -style=LLVM "%:p"
 autocmd BufWritePost *.cpp silent ! clang-format -i -style=LLVM "%:p"
 autocmd BufWritePost *.h silent ! clang-format -i -style=LLVM "%:p"
 
-autocmd BufWritePre *.py execute ":Black"
+" autocmd BufWritePre *.py execute ":Black"
 
 set clipboard=unnamed
 
-let g:airline_theme='gruvbox'
-let g:vimtex_latexmk_options='-pdf -xelatex'
+let g:airline_theme='solarized'
 let g:vimtex_compiler_method = 'latexmk'
+" let g:vimtex_compiler_latexmk = {
+"   \ 'options': [
+"   \ '-xelaggtex', 
+"   \ ]
+"   \}
+
 let g:vimtex_view_method = 'skim'
 let g:vimtex_quickfix_open_on_warning = 0
-let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libclang.dylib'
+let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
 
 nnoremap <leader>m :silent make\|redraw!\|cw<CR>
 
@@ -137,3 +160,5 @@ nnoremap gd :YcmCompleter GoTo<CR>
 " TODO: set this depending on if parcel is running
 autocmd FileType html,css,js,scss set backupcopy=yes
 
+let g:mta_filetypes = {'javascript': 1,  'html' : 1, 'xhtml' : 1, 'xml' : 1, 'jinja' : 1 }
+let g:indentLine_fileTypeExclude = ['tex']

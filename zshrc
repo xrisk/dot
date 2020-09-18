@@ -30,18 +30,18 @@ export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
 export PATH=~/sketch:$PATH
 
 eval "$(pyenv init -)"
-source ~/.poetry/env
+# eval "$(pyenv virtualenv-init -)"
 export BAT_STYLE="Solarized"
 
-export PATH=~/bin:$PATH
+export PATH=~/bin:$PATH:~/.local/bin:$PATH
 export PATH=/Volumes/crosstool-ng/x-tools/x86_64-unknown-linux-gnu/bin:$PATH
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
-source ~/notesystem.sh
 
 
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 #
-alias python=ipython
+#
+export CLASSPATH=".:/usr/local/Cellar/antlr/4.8_1/antlr-4.8-complete.jar:$CLASSPATH"
