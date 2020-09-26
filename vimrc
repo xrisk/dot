@@ -88,7 +88,7 @@ set autoread
 autocmd BufWritePost *.cpp silent ! clang-format -i -style=LLVM "%:p"
 autocmd BufWritePost *.h silent ! clang-format -i -style=LLVM "%:p"
 
-" autocmd BufWritePre *.py execute ":Black"
+autocmd BufWritePre *.py execute ":Black"
 
 set clipboard=unnamed
 
@@ -138,9 +138,9 @@ aug END
 
 let g:rustfmt_autosave = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -162,3 +162,5 @@ autocmd FileType html,css,js,scss set backupcopy=yes
 
 let g:mta_filetypes = {'javascript': 1,  'html' : 1, 'xhtml' : 1, 'xml' : 1, 'jinja' : 1 }
 let g:indentLine_fileTypeExclude = ['tex']
+
+let g:tex_flavor = 'latex'
