@@ -62,6 +62,7 @@ unsetopt correct
 unsetopt correctall
 DISABLE_CORRECTION="true"
 
-export EDITOR=vim
+export EDITOR="vim"
+export GIT_EDITOR=$EDITOR
 
 source ~/z.sh
