@@ -1,4 +1,4 @@
-
+set term=xterm-256color
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'psf/black'
@@ -32,7 +32,6 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'alx741/vim-hindent'
 Plug 'leafgarland/typescript-vim'
 Plug 'arcticicestudio/nord-vim'
-Plug 'maxmellon/vim-jsx-pretty'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -114,7 +113,7 @@ noremap <silent> $ g$
 " let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml,*.html,*.md Prettier
 
-autocmd BufWritePost *.py call flake8#Flake8()
+" autocmd BufWritePost *.py call flake8#Flake8()
 
 " set relativenumber
 
@@ -142,16 +141,16 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 " set statusline+=%{SyntasticStatuslineFlag()}
 " set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_aggregate_errors = 1
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_aggregate_errors = 1
 
 autocmd FileType rust let g:ycm_show_diagnostics_ui = 0
 
-let g:syntastic_rust_checkers = ['cargo', 'clippy']
-let g:syntastic_html_checkers = []
+" let g:syntastic_rust_checkers = ['cargo', 'clippy']
+" let g:syntastic_html_checkers = []
 
 
 nnoremap <C-p> :Files<CR>
