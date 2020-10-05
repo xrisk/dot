@@ -10,11 +10,15 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# https://github.com/davidparsson/zsh-pyenv-lazy
+
 export PYENV_ROOT="${PYENV_ROOT:=${HOME}/.pyenv}"
 if ! type pyenv > /dev/null && [ -f "${PYENV_ROOT}/bin/pyenv" ]; then
     export PATH="${PYENV_ROOT}/bin:${PATH}"
 fi
 
+
+ZSH_PYENV_LAZY_VIRTUALENV=true
 # Lazy load pyenv
 if type pyenv > /dev/null; then
     export PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
@@ -43,6 +47,7 @@ alias gp="git push"
 alias ga="git add"
 alias gl"git pull"
 alias gc="git commit"
+alias gd="git diff"
 
 export PATH=~/bin:$PATH:~/.local/bin:$PATH
 
@@ -65,4 +70,9 @@ DISABLE_CORRECTION="true"
 export EDITOR="vim"
 export GIT_EDITOR=$EDITOR
 
-source ~/z.sh
+source /usr/local/bin/z.sh
+
+alias vim=nvim
+
+alias deactivate="pyenv deactivate"
+export LESS=-r

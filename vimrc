@@ -1,40 +1,37 @@
-set term=xterm-256color
-call plug#begin('~/.vim/plugged')
+call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'psf/black'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'lervag/vimtex'
-Plug 'xavierd/clang_complete'
 Plug 'tpope/vim-sleuth'
-" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'lifepillar/vim-solarized8'
 Plug 'prettier/vim-prettier', {'do': 'npm install'}
 Plug 'Valloric/MatchTagAlways'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
-Plug 'wlangstroth/vim-racket'
+" Plug 'tpope/vim-fugitive'
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+" Plug 'wlangstroth/vim-racket'
 " Plug 'davidhalter/jedi-vim'
-Plug 'xavierchow/vim-swagger-preview'
+" Plug 'xavierchow/vim-swagger-preview'
 Plug 'ycm-core/YouCompleteMe'
-Plug 'nvie/vim-flake8'
+" Plug 'nvie/vim-flake8'
 Plug 'rust-lang/rust.vim'
-Plug 'https://github.com/tpope/vim-liquid'
+" Plug 'https://github.com/tpope/vim-liquid'
 " Plug 'vim-syntastic/syntastic'
 " Plug 'https://github.com/wagnerf42/vim-clippy'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'gruvbox-community/gruvbox'
+" Plug 'gruvbox-community/gruvbox'
 Plug 'https://github.com/Yggdroot/indentLine'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'alx741/vim-hindent'
-Plug 'leafgarland/typescript-vim'
-Plug 'arcticicestudio/nord-vim'
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'neovimhaskell/haskell-vim'
+" Plug 'alx741/vim-hindent'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'arcticicestudio/nord-vim'
+" Plug 'maxmellon/vim-jsx-pretty'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 call plug#end()
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -89,7 +86,7 @@ autocmd BufWritePost *.h silent ! clang-format -i -style=LLVM "%:p"
 
 autocmd BufWritePre *.py execute ":Black"
 
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 let g:airline_theme='solarized'
 let g:vimtex_compiler_method = 'latexmk'
@@ -163,3 +160,5 @@ let g:mta_filetypes = {'javascript': 1,  'html' : 1, 'xhtml' : 1, 'xml' : 1, 'ji
 let g:indentLine_fileTypeExclude = ['tex']
 
 let g:tex_flavor = 'latex'
+
+set guicursor=
