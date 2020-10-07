@@ -1,13 +1,10 @@
-```
 d o t s
-```
-![screenshot](screen.jpg)
+.. image:: screen.jpg
 
-```
 I prefer things that work OOTB™. The best config is no config.
 
 macOS apps
-=========
+==========
 
 * [magnet](https://magnet.crowdcafe.com) - basic window management
 * [karabiner](https://karabiner-elements.pqrs.org/) - do useful things like map ctrl+hjkl to arrow keys
@@ -40,7 +37,6 @@ fave fonts
 * Source Code Pro
 * Helvetica (old but golde)
 * Inconsolata
-```
 
 
 
