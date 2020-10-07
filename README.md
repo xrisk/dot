@@ -14,12 +14,14 @@ macOS apps
 * [NepTunes](https://micropixels.software/neptunes) - lastfm scrobbler for use with Apple Music 
 * [Hidden Bar](https://github.com/dwarvesf/hidden) - hide menu bar items
 
+more stuff in `Brewfile`
+
 notes | work | writing
 ====================================
 
 * notion - basic, good, easy
 * zotero - open source, use [better-bibtex](https://retorque.re/zotero-better-bibtex/)
-* vim
+* nvim
 
 
 (n)vim stuff
@@ -30,14 +32,19 @@ notes | work | writing
 * vim-commentary - why is this not upstreamed?
 * YouCompleteMe - works well without config (seriously, I don't have the time to set up 50 LSPs)
 
+Full config at `~/.config/nvim/init.vim`.
+
 fave fonts
 ==========
 
 * SF Pro / Mono
+* Inter
 * Baskerville (great for academic writing)
 * Source Code Pro
 * Helvetica (old but golde)
 * Inconsolata
+
+more stuff in my Brewfile
 
 
 
