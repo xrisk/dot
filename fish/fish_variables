@@ -1,5 +1,7 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export EDITOR:vim
+SETUVAR --export GIT_EDITOR:vim
 SETUVAR ZO_CMD:zo
 SETUVAR Z_CMD:z
 SETUVAR Z_DATA:/Users/xrisk/\x2elocal/share/z/data
@@ -7,7 +9,7 @@ SETUVAR Z_DATA_DIR:/Users/xrisk/\x2elocal/share/z
 SETUVAR Z_EXCLUDE:\x5e/Users/xrisk\x24
 SETUVAR __fish_initialized:3100
 SETUVAR _fish_abbr_ga:git\x20add
-SETUVAR _fish_abbr_gc:git\x20commit
+SETUVAR _fish_abbr_gc:git\x20commit\x20\x2dv
 SETUVAR _fish_abbr_gco:git\x20checkout
 SETUVAR _fish_abbr_gd:git\x20diff
 SETUVAR _fish_abbr_gl:git\x20pull
