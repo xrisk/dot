@@ -415,7 +415,7 @@
                         ]
                     },
                     {
-                        "description": "vim-preview: map gG (go to first / last page)",
+                        "description": "vim-preview: map g / G (go to first / last page)",
                         "manipulators": [
                             {
                                 "conditions": [
