@@ -2,7 +2,8 @@ call plug#begin()
 Plug 'sheerun/vim-polyglot'
 " Plug 'psf/black', { 'for': 'python' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
+Plug 'https://github.com/itchyny/lightline.vim'
 " Plug 'vim-airline/vim-airline-themes'
 Plug 'lervag/vimtex', { 'for' : 'tex' }
 " Plug 'lifepillar/vim-solarized8'
@@ -35,6 +36,7 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 " Plug 'arzg/vim-colors-xcode'
 " Plug 'cocopon/iceberg.vim'
+Plug 'ap/vim-buftabline'
 call plug#end()
 
 set mouse=a
@@ -72,7 +74,7 @@ set autoread
 
 set clipboard+=unnamedplus
 
-let g:airline_theme='nord'
+" let g:airline_theme='nord'
 let g:vimtex_compiler_method = 'latexmk'
 
 
@@ -313,5 +315,16 @@ let g:prettier#config#require_pragma = 'false'
 " defaut: 'lf'
 let g:prettier#config#end_of_line = get(g:, 'prettier#config#end_of_line', 'lf')
 
-" set 
-let g:airline#extensions#tabline#enabled = 1
+" faster apparently
+let g:python3_host_prog = '/Users/xrisk/.pyenv/versions/3.9.1/bin/python'
+
+let g:lightline = {
+      \ 'colorscheme': 'nord',
+      \ }
+
+" navigate buftabs
+nnoremap <C-[> :bnext<CR>
+nnoremap <C-]> :bprev<CR>
+
+" hide buftabs when there's only one buffer
+let g:buftabline_show = 1
