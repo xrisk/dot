@@ -2,16 +2,16 @@ call plug#begin()
 Plug 'sheerun/vim-polyglot'
 " Plug 'psf/black', { 'for': 'python' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-" Plug 'vim-airline/vim-airline'
-Plug 'https://github.com/itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+" Plug 'https://github.com/itchyny/lightline.vim'
 " Plug 'vim-airline/vim-airline-themes'
 Plug 'lervag/vimtex', { 'for' : 'tex' }
 " Plug 'lifepillar/vim-solarized8'
 Plug 'prettier/vim-prettier', {'do': 'npm install'}
 Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'javascript'] }
 Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-fugitive'
-" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'tpope/vim-fugitive'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } ,  'for': ['markdown']  }
 " Plug 'wlangstroth/vim-racket'
 " Plug 'davidhalter/jedi-vim'
 " Plug 'xavierchow/vim-swagger-preview'
@@ -37,6 +37,7 @@ Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 " Plug 'arzg/vim-colors-xcode'
 " Plug 'cocopon/iceberg.vim'
 Plug 'ap/vim-buftabline'
+Plug 'mitsuhiko/vim-jinja'
 call plug#end()
 
 set mouse=a
@@ -232,7 +233,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
@@ -319,12 +320,19 @@ let g:prettier#config#end_of_line = get(g:, 'prettier#config#end_of_line', 'lf')
 let g:python3_host_prog = '/Users/xrisk/.pyenv/versions/3.9.1/bin/python'
 
 let g:lightline = {
-      \ 'colorscheme': 'nord',
-      \ }
+	\ 'colorscheme': 'nord',
+	\ 'active': {
+	\   'left': [ [ 'mode', 'paste' ],
+	\             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+	\ },
+	\ 'component_function': {
+	\   'cocstatus': 'coc#status'
+	\ },
+	\ }
 
 " navigate buftabs
-nnoremap <C-[> :bnext<CR>
-nnoremap <C-]> :bprev<CR>
+" nnoremap <C-9> :bnext<CR>
+" nnoremap <C-0> :bprev<CR>
 
 " hide buftabs when there's only one buffer
 let g:buftabline_show = 1

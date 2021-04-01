@@ -1,4 +1,11 @@
-set -q PYENV_ROOT; or set -l PYENV_ROOT $HOME/.pyenv
+function pyenv
+  set command $argv[1]
+  set -e argv[1]
 
-set -gx PATH $PYENV_ROOT/shims $PATH
-setenv PYENV_SHELL fish
+  switch "$command"
+  case activate deactivate rehash shell
+    source (pyenv "sh-$command" $argv|psub)
+  case '*'
+    command pyenv "$command" $argv
+  end
+end
