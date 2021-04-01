@@ -1569,6 +1569,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>Default Arrangement Name</key>
+	<string>Default</string>
 	<key>Default Bookmark Guid</key>
 	<string>BCA809CA-5D65-4283-A503-122B879EDDE7</string>
 	<key>DimInactiveSplitPanes</key>
@@ -1702,6 +1704,8 @@
 	<false/>
 	<key>HideMenuBarInFullscreen</key>
 	<true/>
+	<key>HideScrollbar</key>
+	<false/>
 	<key>HideTab</key>
 	<false/>
 	<key>HideTabNumber</key>
@@ -1728,7 +1732,7 @@
 			<key>ASCII Anti Aliased</key>
 			<true/>
 			<key>ASCII Ligatures</key>
-			<true/>
+			<false/>
 			<key>Allow Title Reporting</key>
 			<true/>
 			<key>Ambiguous Double Width</key>
@@ -1999,7 +2003,7 @@
 			<key>Columns</key>
 			<integer>80</integer>
 			<key>Command</key>
-			<string>/bin/zsh</string>
+			<string>/usr/local/bin/fish</string>
 			<key>Cursor Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -2040,9 +2044,9 @@
 				<real>0.17621420323848724</real>
 			</dict>
 			<key>Custom Command</key>
-			<string>No</string>
+			<string>Custom Shell</string>
 			<key>Custom Directory</key>
-			<string>Recycle</string>
+			<string>No</string>
 			<key>Default Bookmark</key>
 			<string>No</string>
 			<key>Description</key>
@@ -2408,7 +2412,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>IBMPlexMono 14</string>
+			<string>SourceCodePro-Regular 14</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Place Prompt at First Column</key>
@@ -3445,6 +3449,12 @@
 	</array>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
+	<key>OpenArrangementAtStartup</key>
+	<true/>
+	<key>OpenBookmark</key>
+	<false/>
+	<key>OpenNoWindowsAtStartup</key>
+	<false/>
 	<key>PMPrintingExpandedStateForPrint2</key>
 	<false/>
 	<key>PointerActions</key>
@@ -3482,8 +3492,6 @@
 	</dict>
 	<key>PreserveWindowSizeWhenTabBarVisibilityChanges</key>
 	<true/>
-	<key>PreventEscapeSequenceFromClearingHistory</key>
-	<false/>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>PromptOnQuit</key>
@@ -3520,10 +3528,14 @@
 	<false/>
 	<key>UseBorder</key>
 	<false/>
+	<key>UseMetal</key>
+	<false/>
 	<key>UseTmuxStatusBar</key>
 	<true/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
+	<key>Window Arrangements</key>
+	<dict/>
 	<key>WindowNumber</key>
 	<false/>
 	<key>findMode_iTerm</key>
