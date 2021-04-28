@@ -317,7 +317,7 @@ let g:prettier#config#require_pragma = 'false'
 let g:prettier#config#end_of_line = get(g:, 'prettier#config#end_of_line', 'lf')
 
 " faster apparently
-let g:python3_host_prog = '/Users/xrisk/.pyenv/versions/3.9.1/bin/python'
+let g:python3_host_prog = '/Users/xrisk/.pyenv/versions/3.9.4/bin/python'
 
 let g:lightline = {
 	\ 'colorscheme': 'nord',
