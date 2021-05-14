@@ -1,6 +1,6 @@
 {
 	"python.formatting.provider": "black",
 	"python.formatting.blackPath": "/usr/local/bin/black",
-	"coc.preferences.formatOnSaveFiletypes": ["python", "markdown"],
-	"coc.preferences.willSaveHandlerTimeout": 1000
+	"coc.preferences.formatOnSaveFiletypes": ["*"],
+	"coc.preferences.willSaveHandlerTimeout": 5000
 }

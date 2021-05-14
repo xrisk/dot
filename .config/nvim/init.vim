@@ -12,7 +12,7 @@ Plug 'vim-airline/vim-airline'
 " Plug 'https://github.com/itchyny/lightline.vim'
 " Plug 'vim-airline/vim-airline-themes'
 Plug 'lervag/vimtex', { 'for' : 'tex' }
-" Plug 'lifepillar/vim-solarized8'
+Plug 'lifepillar/vim-solarized8'
 Plug 'prettier/vim-prettier', {'do': 'npm install'}
 Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'javascript'] }
 Plug 'tpope/vim-commentary'
@@ -81,7 +81,7 @@ set autoread
 
 set clipboard+=unnamedplus
 
-" let g:airline_theme='nord'
+" let g:airline_theme='solarized'
 let g:vimtex_compiler_method = 'latexmk'
 
 
@@ -94,8 +94,6 @@ noremap <silent> 0 g0
 noremap <silent> $ g$
 
 
-nnoremap <C-b> :NERDTreeToggle<CR>
-nnoremap <leader>r ! racket "%:p"<CR>
 
 set title
 
@@ -337,8 +335,10 @@ let g:lightline = {
 	\ }
 
 " navigate buftabs
-nnoremap <C-9> :bnext<CR>
-nnoremap <C-0> :bprev<CR>
+nnoremap = :bnext<CR>
+nnoremap - :bprev<CR>
 
 " hide buftabs when there's only one buffer
 let g:buftabline_show = 1
+nnoremap <C-b> :NERDTreeToggle<CR>
+nnoremap <F3> :BTags<CR>
