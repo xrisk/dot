@@ -342,3 +342,5 @@ nnoremap - :bprev<CR>
 let g:buftabline_show = 1
 nnoremap <C-b> :NERDTreeToggle<CR>
 nnoremap <F3> :BTags<CR>
+
+set termguicolors
