@@ -74,7 +74,6 @@ set undofile
 set autoread
 
 " autocmd BufWritePost *.c silent ! clang-format -i -style=LLVM "%:p"
-" autocmd BufWritePost *.cpp silent ! clang-format -i -style=LLVM "%:p"
 " autocmd BufWritePost *.h silent ! clang-format -i -style=LLVM "%:p"
 
 " autocmd BufWritePre *.py execute ":Black"
@@ -344,3 +343,16 @@ nnoremap <C-b> :NERDTreeToggle<CR>
 nnoremap <F3> :BTags<CR>
 
 set termguicolors
+
+nnoremap cp :r! ~/cp-template.cpp
+noremap <F5> :! g++-11 -std=c++17 -Wall -Wpedantic -O2 % && ./a.out < input.txt > output.txt<CR>
+
+function FormatBuffer() 
+  if &modified
+    let cursor_pos = getpos('.')
+    :%!clang-format -style=LLVM
+    call setpos('.', cursor_pos)
+  endif
+endfunction
+
+autocmd BufWritePre *.cpp silent :call FormatBuffer()
