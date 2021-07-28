@@ -344,7 +344,7 @@ nnoremap <F3> :BTags<CR>
 
 set termguicolors
 
-nnoremap cp :r! ~/cp-template.cpp
+nnoremap cp :r ~/cp-template.cpp<CR>
 noremap <F5> :! g++-11 -std=c++17 -Wall -Wpedantic -O2 % && ./a.out < input.txt > output.txt<CR>
 
 function FormatBuffer() 
