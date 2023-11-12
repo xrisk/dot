@@ -67,9 +67,8 @@ M.nvimtree = {
 
 M.cmp = {
   mapping = {
-    ["<Tab>"] = cmp.mapping.confirm(),
-    ["<Up>"] = cmp.mapping.select_prev_item(),
-    ["<Down>"] = cmp.mapping.select_next_item(),
+    ["<Tab>"] = cmp.mapping.select_next_item(),
+    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
   },
 }
 
