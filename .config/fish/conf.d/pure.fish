@@ -1,4 +1,4 @@
-set --global pure_version 4.1.1 # For bug report and tag-after-merge workflow
+set --global pure_version 4.8.1 # For bug report and tag-after-merge workflow
 
 # Base colors
 _pure_set_default pure_color_primary blue
@@ -19,6 +19,7 @@ _pure_set_default pure_color_prompt_on_success pure_color_success
 
 # Current Working Directory
 _pure_set_default pure_color_current_directory pure_color_primary
+_pure_set_default pure_shorten_prompt_current_directory_length 0
 
 # Git
 _pure_set_default pure_enable_git true
@@ -46,7 +47,9 @@ _pure_set_default pure_color_jobs pure_color_normal
 _pure_set_default pure_show_system_time false
 _pure_set_default pure_color_system_time pure_color_mute
 
-# Virtualenv for Python
+#  env for Python
+_pure_set_default pure_enable_virtualenv true
+_pure_set_default pure_symbol_virtualenv_prefix "" # 🐍
 _pure_set_default pure_color_virtualenv pure_color_mute
 
 # Print current working directory at the beginning of prompt
@@ -70,7 +73,8 @@ _pure_set_default pure_color_command_duration pure_color_warning
 _pure_set_default pure_reverse_prompt_symbol_in_vimode true
 
 # Title
-_pure_set_default pure_symbol_title_bar_separator "-"
+_pure_set_default pure_symbol_title_bar_separator -
+_pure_set_default pure_shorten_window_title_current_directory_length 0
 
 # Check for new release on startup
 _pure_set_default pure_check_for_new_release false
@@ -82,3 +86,17 @@ _pure_set_default pure_color_prefix_root_prompt pure_color_danger
 
 # Compact mode
 _pure_set_default pure_enable_single_line_prompt false
+
+# Detect when running in container (e.g. docker, podman, LXC/LXD)
+_pure_set_default pure_enable_container_detection true
+_pure_set_default pure_symbol_container_prefix "" # suggestion: '🐋' or '📦'
+
+# Detect when running in SSH
+_pure_set_default pure_symbol_ssh_prefix "" # suggestion: 'ssh:/' or '🔗🔐🔒🌐'
+
+# Display Kubernetes/k8s context and namespace
+_pure_set_default pure_enable_k8s false
+_pure_set_default pure_symbol_k8s_prefix "☸" # ☸️
+_pure_set_default pure_color_k8s_prefix pure_color_dark
+_pure_set_default pure_color_k8s_context pure_color_success
+_pure_set_default pure_color_k8s_namespace pure_color_primary

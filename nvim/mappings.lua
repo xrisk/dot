@@ -13,6 +13,7 @@ M.disabled = {
 M.general = {
   n = {
     ["<C-b>"] = { "<cmd> NvimTreeToggle <CR>", "Toggle NvimTree" },
+    ["<leader>xx"] = { "<cmd> TroubleToggle <CR>" },
   },
   v = {
     [">"] = { ">gv", "indent" },
@@ -28,15 +29,15 @@ M.telescope = {
 
 M.tabufline = {
   n = {
-    ["-"] = {
+    ["+"] = {
       function()
         require("nvchad.tabufline").tabuflineNext()
       end,
       "Goto next buffer",
     },
-    ["+"] = {
+    ["-"] = {
       function()
-        require("nvchat.tabufline").tabuflinePrev()
+        require("nvchad.tabufline").tabuflinePrev()
       end,
       "Goto prev buffer",
     },
