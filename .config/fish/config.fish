@@ -8,3 +8,8 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
 set -gx pure_show_system_time true
 
 set -x SSH_AUTH_SOCK /Users/xrisk/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
+
+abbr --add vim nvim
+abbr --add gc git commit -v
+abbr --add gs git status
+abbr --add ga git add
