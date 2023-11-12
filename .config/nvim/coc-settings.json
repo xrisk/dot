@@ -1,6 +1,0 @@
-{
-	"python.formatting.provider": "black",
-	"python.formatting.blackPath": "/usr/local/bin/black",
-	"coc.preferences.formatOnSaveFiletypes": ["*"],
-	"coc.preferences.willSaveHandlerTimeout": 5000
-}
