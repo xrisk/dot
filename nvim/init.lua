@@ -12,5 +12,6 @@ vim.g.mapleader = "\\"
 local new_cmd = vim.api.nvim_create_user_command
 
 new_cmd("Rg", function()
-  require("telescope.builtin").live_grep()
+	require("telescope.builtin").live_grep()
 end, {})
+
