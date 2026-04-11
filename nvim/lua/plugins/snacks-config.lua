@@ -1,13 +1,5 @@
 -- Enhanced snacks.nvim configuration with "everything" search
 
-local function everything_search()
-  local Snacks = require("snacks")
-  -- Default to "All" search - files + recent + buffers combined
-  Snacks.picker.files({
-    auto_confirm = false,
-  })
-end
-
 ---@type LazySpec
 return {
   {
@@ -33,6 +25,11 @@ return {
             truncate = 80,
           },
         },
+        -- Define a custom "all" picker that searches everything
+        multi = {
+          enabled = true,
+          default = "all",
+        },
       },
     },
   },
@@ -43,10 +40,19 @@ return {
       local maps = opts.mappings
       maps.n = maps.n or {}
 
-      -- Everything search with filter menu
+      -- Everything search - files + grep combined
       maps.n["<Leader>ff"] = {
-        everything_search,
-        desc = "Everything search (files, grep, buffers, recent)",
+        function()
+          require("snacks").picker.files()
+        end,
+        desc = "Search files (with live grep fallback)",
+      }
+      -- Alternative: grep for text search
+      maps.n["<Leader>fg"] = {
+        function()
+          require("snacks").picker.grep()
+        end,
+        desc = "Grep search in files",
       }
     end,
   },
