@@ -40,7 +40,6 @@ local plugins = {
 		"hrsh7th/nvim-cmp",
 		opts = overrides.cmp,
 	},
-
 	{
 		"williamboman/mason.nvim",
 		opts = overrides.mason,
@@ -63,23 +62,15 @@ local plugins = {
 		cmd = { "Trouble", "TroubleToggle" },
 	},
 	{
-		"rebelot/kanagawa.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("kanagawa").setup({
-				colors = {
-					theme = {
-						all = {
-							ui = {
-								bg_gutter = "none",
-							},
-						},
-					},
-				},
-			})
-			vim.cmd("colorscheme kanagawa")
-		end,
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"nvim-telescope/telescope.nvim", -- optional
+			"sindrets/diffview.nvim", -- optional
+			"ibhagwan/fzf-lua", -- optional
+		},
+		config = true,
+		cmd = { "Neogit" },
 	},
 	{
 		"nvim-neorg/neorg",
