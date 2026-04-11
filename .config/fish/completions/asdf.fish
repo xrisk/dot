@@ -1,0 +1,1 @@
+/Users/xrisk/.asdf/completions/asdf.fish

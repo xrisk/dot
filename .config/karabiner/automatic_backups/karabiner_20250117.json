@@ -4,94 +4,7 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Change Caps Lock + I/J/K/L to Arrow Keys",
-                        "manipulators": [
-                            {
-                                "from": { "key_code": "caps_lock" },
-                                "to": [
-                                    {
-                                        "set_variable": {
-                                            "name": "caps_arrows_mode",
-                                            "value": 1
-                                        }
-                                    }
-                                ],
-                                "to_after_key_up": [
-                                    {
-                                        "set_variable": {
-                                            "name": "caps_arrows_mode",
-                                            "value": 0
-                                        }
-                                    }
-                                ],
-                                "to_if_alone": [{ "key_code": "caps_lock" }],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "caps_arrows_mode",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "j",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "down_arrow" }],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "caps_arrows_mode",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "k",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "up_arrow" }],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "caps_arrows_mode",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "h",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "left_arrow" }],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "caps_arrows_mode",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "l",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "right_arrow" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Caps Lock + Escape",
-                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -105,13 +18,12 @@
                     },
                     {
                         "description": "Change Fn + h/j/k/l to Arrows",
-                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "h",
                                     "modifiers": {
-                                        "mandatory": ["caps_lock"],
+                                        "mandatory": ["fn"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -122,7 +34,7 @@
                                 "from": {
                                     "key_code": "j",
                                     "modifiers": {
-                                        "mandatory": ["caps_lock"],
+                                        "mandatory": ["fn"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -133,7 +45,7 @@
                                 "from": {
                                     "key_code": "k",
                                     "modifiers": {
-                                        "mandatory": ["caps_lock"],
+                                        "mandatory": ["fn"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -144,7 +56,7 @@
                                 "from": {
                                     "key_code": "l",
                                     "modifiers": {
-                                        "mandatory": ["caps_lock"],
+                                        "mandatory": ["fn"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -155,7 +67,6 @@
                     },
                     {
                         "description": "vim-preview: map jk (down/up)",
-                        "enabled": false,
                         "manipulators": [
                             {
                                 "conditions": [
@@ -187,7 +98,6 @@
                     },
                     {
                         "description": "vim-preview: map jk (down/up)",
-                        "enabled": false,
                         "manipulators": [
                             {
                                 "conditions": [
@@ -226,9 +136,20 @@
                         "product_id": 291,
                         "vendor_id": 1046
                     },
-                    "ignore_vendor_events": true,
                     "manipulate_caps_lock_led": false,
                     "simple_modifications": [
+                        {
+                            "from": { "key_code": "caps_lock" },
+                            "to": [{ "key_code": "fn" }]
+                        },
+                        {
+                            "from": { "key_code": "f11" },
+                            "to": [{ "consumer_key_code": "volume_decrement" }]
+                        },
+                        {
+                            "from": { "key_code": "f12" },
+                            "to": [{ "consumer_key_code": "volume_increment" }]
+                        },
                         {
                             "from": { "key_code": "left_command" },
                             "to": [{ "key_code": "left_option" }]
@@ -236,6 +157,10 @@
                         {
                             "from": { "key_code": "left_option" },
                             "to": [{ "key_code": "left_command" }]
+                        },
+                        {
+                            "from": { "key_code": "right_option" },
+                            "to": [{ "key_code": "right_command" }]
                         }
                     ]
                 },

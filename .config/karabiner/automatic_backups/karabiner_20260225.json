@@ -155,7 +155,6 @@
                     },
                     {
                         "description": "vim-preview: map jk (down/up)",
-                        "enabled": false,
                         "manipulators": [
                             {
                                 "conditions": [
@@ -187,7 +186,6 @@
                     },
                     {
                         "description": "vim-preview: map jk (down/up)",
-                        "enabled": false,
                         "manipulators": [
                             {
                                 "conditions": [
