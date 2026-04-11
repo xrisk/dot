@@ -48,7 +48,6 @@ return {
           -- Snacks explorer (file tree)
           ["<Leader>e"] = { function() Snacks.explorer() end, desc = "File explorer" },
           -- Snacks picker (fuzzy finder)
-          ["<Leader>ff"] = { function() Snacks.picker.files() end, desc = "Find files" },
           ["<Leader>fg"] = { function() Snacks.picker.grep() end, desc = "Grep" },
           ["<Leader>fb"] = { function() Snacks.picker.buffers() end, desc = "Buffers" },
           ["<Leader>fr"] = { function() Snacks.picker.recent() end, desc = "Recent files" },
