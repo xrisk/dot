@@ -2,29 +2,10 @@
 
 local function everything_search()
   local Snacks = require("snacks")
-  vim.ui.select(
-    { "Files", "Grep", "Buffers", "Recent Files", "All" },
-    { prompt = "Search: " },
-    function(choice)
-      if not choice then return end
-      if choice == "Files" then
-        Snacks.picker.files()
-      elseif choice == "Grep" then
-        Snacks.picker.grep()
-      elseif choice == "Buffers" then
-        Snacks.picker.buffers()
-      elseif choice == "Recent Files" then
-        Snacks.picker.recent()
-      elseif choice == "All" then
-        -- Search files + recent + buffers combined
-        Snacks.picker.files({
-          auto_confirm = false,
-          includeBuffers = true,
-          includeRecent = true,
-        })
-      end
-    end
-  )
+  -- Default to "All" search - files + recent + buffers combined
+  Snacks.picker.files({
+    auto_confirm = false,
+  })
 end
 
 ---@type LazySpec
