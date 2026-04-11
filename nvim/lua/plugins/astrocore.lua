@@ -5,67 +5,73 @@
 
 ---@type LazySpec
 return {
-  "AstroNvim/astrocore",
-  ---@type AstroCoreOpts
-  opts = {
-    -- Configure core features of AstroNvim
-    features = {
-      large_buf = { size = 1024 * 256, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = true, -- enable autopairs at start
-      cmp = true, -- enable completion at start
-      diagnostics = { virtual_text = false, virtual_lines = true }, -- diagnostic settings on startup
-      highlighturl = true, -- highlight URLs at start
-      notifications = true, -- enable notifications at start
-    },
-    -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
-    diagnostics = {
-      virtual_text = false,
-      underline = true,
-    },
-    -- vim options can be configured here
-    options = {
-      opt = { -- vim.opt.<key>
-        relativenumber = false, -- sets vim.opt.relativenumber
-        number = true, -- sets vim.opt.number
-        spell = false, -- sets vim.opt.spell
-        signcolumn = "yes", -- sets vim.opt.signcolumn to yes
-        wrap = true, -- sets vim.opt.wrap
+  {
+    "AstroNvim/astrocore",
+    ---@type AstroCoreOpts
+    opts = {
+      features = {
+        large_buf = { size = 1024 * 256, lines = 10000 },
+        autopairs = true,
+        cmp = true,
+        diagnostics = { virtual_text = false, virtual_lines = true },
+        highlighturl = true,
+        notifications = true,
       },
-      g = { -- vim.g.<key>
-        -- configure global vim variables (vim.g)
-        -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
-        -- This can be found in the `lua/lazy_setup.lua` file
+      diagnostics = {
+        virtual_text = false,
+        underline = true,
       },
-    },
-    -- Mappings can be configured through AstroCore as well.
-    -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
-    mappings = {
-      -- first key is the mode
-      n = {
-        -- second key is the lefthand side of the map
-        ["0"] = { "g0", desc = "Navigate wrapped line start" },
-        ["$"] = { "g$", desc = "Navigate wrapped line end" },
-
-        -- navigate buffer tabs
-        ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-
-        -- mappings seen under group name "Buffer"
-        ["<Leader>bd"] = {
-          function()
-            require("astroui.status.heirline").buffer_picker(
-              function(bufnr) require("astrocore.buffer").close(bufnr) end
-            )
-          end,
-          desc = "Close buffer from tabline",
+      options = {
+        opt = {
+          relativenumber = false,
+          number = true,
+          spell = false,
+          signcolumn = "yes",
+          wrap = true,
         },
-
-        -- tables with just a `desc` key will be registered with which-key if it's installed
-        -- this is useful for naming menus
-        -- ["<Leader>b"] = { desc = "Buffers" },
-
-        -- setting a mapping to false will disable it
-        ["\\"] = false,
+        g = {},
+      },
+      mappings = {
+        n = {
+          ["0"] = { "g0", desc = "Navigate wrapped line start" },
+          ["$"] = { "g$", desc = "Navigate wrapped line end" },
+          ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+          ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+          ["<Leader>bd"] = {
+            function()
+              require("astroui.status.heirline").buffer_picker(
+                function(bufnr) require("astrocore.buffer").close(bufnr) end
+              )
+            end,
+            desc = "Close buffer from tabline",
+          },
+          -- Snacks explorer (file tree)
+          ["<Leader>e"] = { function() Snacks.explorer() end, desc = "File explorer" },
+          -- Snacks picker (fuzzy finder)
+          ["<Leader>ff"] = { function() Snacks.picker.files() end, desc = "Find files" },
+          ["<Leader>fg"] = { function() Snacks.picker.grep() end, desc = "Grep" },
+          ["<Leader>fb"] = { function() Snacks.picker.buffers() end, desc = "Buffers" },
+          ["<Leader>fr"] = { function() Snacks.picker.recent() end, desc = "Recent files" },
+          ["\\"] = false,
+        },
+      },
+    },
+  },
+  {
+    "AstroNvim/astroui",
+    opts = {
+      colorscheme = "kanagawa",
+      icons = {
+        LSPLoading1 = "⠋",
+        LSPLoading2 = "⠙",
+        LSPLoading3 = "⠹",
+        LSPLoading4 = "⠸",
+        LSPLoading5 = "⠼",
+        LSPLoading6 = "⠴",
+        LSPLoading7 = "⠦",
+        LSPLoading8 = "⠧",
+        LSPLoading9 = "⠇",
+        LSPLoading10 = "⠏",
       },
     },
   },
