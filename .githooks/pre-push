@@ -12,8 +12,9 @@ while read -r local_ref local_sha remote_ref remote_sha; do
   # Skip deletions
   [ "$local_sha" = "0000000000000000000000000000000000000000" ] && continue
 
-  # Commits to scan: new branch → everything not yet on any remote; update → new range only
-  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+  # Commits to scan: new branch or unknown remote SHA → everything not yet on any remote
+  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ] || \
+     ! git cat-file -e "$remote_sha" 2>/dev/null; then
     commits=$(git log --format="%H" "$local_sha" --not --remotes)
   else
     commits=$(git log --format="%H" "$remote_sha..$local_sha")
