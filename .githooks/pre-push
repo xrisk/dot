@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -e
+
+echo "🔍 Scanning for secrets before push..."
+
+output=$(git ls-files | grep -v -E '^(nvim/lazy-lock\.json|\.secrets\.baseline)$' | \
+  xargs uvx detect-secrets scan \
+  --exclude-files 'nvim/lazy-lock.json' 2>/dev/null)
+
+new_secrets=$(echo "$output" | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+findings = data.get('results', {})
+if findings:
+    for path, hits in findings.items():
+        for h in hits:
+            print(f'  {path}:{h[\"line_number\"]} — {h[\"type\"]}')
+    sys.exit(1)
+" 2>&1)
+
+if [ $? -ne 0 ]; then
+  echo "❌ Secrets detected — push blocked:"
+  echo "$new_secrets"
+  echo ""
+  echo "If this is a false positive, update the baseline:"
+  echo "  uvx detect-secrets scan --all-files --exclude-files 'nvim/lazy-lock.json' > .secrets.baseline"
+  echo "  git add .secrets.baseline && git commit"
+  exit 1
+fi
+
+echo "✅ No secrets found."
