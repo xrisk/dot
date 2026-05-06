@@ -90,9 +90,7 @@ fish_add_path /Users/xrisk/.antigravity/antigravity/bin
 
 # set -gx ANTHROPIC_BASE_URL http://localhost:1234
 
-# set -x LM_API_TOKEN "sk-lm-Etq8dh7d:AMF114UXAKCiDdUNi26P"
-# set -gx ANTHROPIC_AUTH_TOKEN "lmstudio"
-#
+
 
 # export DYLD_LIBRARY_PATH="$(brew --prefix ffmpeg)/lib:$DYLD_LIBRARY_PATH"
 
@@ -107,9 +105,13 @@ set -gx LDFLAGS "-L/opt/homebrew/opt/ffmpeg@7/lib"
 set -gx CPPFLAGS "-I/opt/homebrew/opt/ffmpeg@7/include"
 set -gx PKG_CONFIG_PATH "/opt/homebrew/opt/ffmpeg@7/lib/pkgconfig"
 
-set -gx HF_TOKEN {REDACTED_HF_TOKEN}
-
 fish_add_path ~/bin
 
 zoxide init fish | source
 set -x LESS "-R --mouse --wheel-lines=3"
+
+# Load secrets (gitignored — put HF_TOKEN, API keys, etc. here)
+set -l secrets_file $XDG_CONFIG_HOME/fish/conf.d/secrets.fish
+if test -f $secrets_file
+    source $secrets_file
+end
