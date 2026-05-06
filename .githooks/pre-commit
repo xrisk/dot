@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -e
+
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$staged" ] && exit 0
+
+echo "🔍 Scanning for secrets..."
+
+# Exclude files known to produce false positives
+scan_files=$(echo "$staged" | grep -v -E '^(nvim/lazy-lock\.json|\.secrets\.baseline)$' || true)
+[ -z "$scan_files" ] && { echo "✅ No files to scan."; exit 0; }
+
+output=$(echo "$scan_files" | xargs uvx detect-secrets scan \
+  --exclude-files 'nvim/lazy-lock.json' 2>/dev/null)
+
+new_secrets=$(echo "$output" | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+findings = data.get('results', {})
+if findings:
+    for path, hits in findings.items():
+        for h in hits:
+            print(f'  {path}:{h[\"line_number\"]} — {h[\"type\"]}')
+    sys.exit(1)
+" 2>&1)
+
+if [ $? -ne 0 ]; then
+  echo "❌ Secrets detected — commit blocked:"
+  echo "$new_secrets"
+  echo ""
+  echo "If this is a false positive, update the baseline:"
+  echo "  uvx detect-secrets scan --all-files --exclude-files 'nvim/lazy-lock.json' > .secrets.baseline"
+  echo "  git add .secrets.baseline"
+  exit 1
+fi
+
+echo "✅ No secrets found."
