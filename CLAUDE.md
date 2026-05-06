@@ -30,4 +30,19 @@ Each major tool has its own CLAUDE.md:
 - The `conf.d/` files are loaded alphabetically; `00-xdg.fish` runs first to define `$XDG_*` variables that other files depend on.
 - SSH auth is handled by [Secretive](https://github.com/maxgoedjen/secretive) via a custom `$SSH_AUTH_SOCK`.
 - `ffmpeg@7` (pinned version) is on `$PATH` and its lib paths are set explicitly; do not change to `ffmpeg` (unpinned).
-- `$HF_TOKEN` is set in `config.fish` — do not commit changes that expose it or add other secrets inline.
+- **Secrets** (API keys, tokens) must never be committed inline. Put them in `~/.config/fish/conf.d/secrets.fish`, which is gitignored. `config.fish` sources it automatically if it exists.
+
+## Secret Scanning
+
+A pre-commit hook runs `detect-secrets` (via `uvx`) on every commit. On a fresh clone, activate it once:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+If a false positive blocks a commit, regenerate the baseline:
+
+```sh
+uvx detect-secrets scan --all-files --exclude-files 'nvim/lazy-lock.json' > .secrets.baseline
+git add .secrets.baseline
+```

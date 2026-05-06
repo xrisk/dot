@@ -59,6 +59,15 @@ The main config sets:
 - `zoxide init fish | source` (replaces the old z.fish / `__z*` functions that were deleted)
 - `$UV_TORCH_BACKEND auto`
 
+## Secrets
+
+API keys and tokens go in `~/.config/fish/conf.d/secrets.fish` (gitignored — never committed). `config.fish` sources it at startup if it exists:
+
+```fish
+# secrets.fish — example
+set -gx HF_TOKEN hf_...
+```
+
 ## Key design choices
 
 - **zoxide** replaced the old hand-rolled `z`/`__z*` functions. The `z.fish` conf.d file and `__z*.fish` functions were deleted; `zoxide` is now initialized at the bottom of `config.fish`.
