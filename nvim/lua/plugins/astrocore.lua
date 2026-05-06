@@ -26,7 +26,7 @@ return {
           relativenumber = false,
           number = true,
           spell = false,
-          signcolumn = "yes",
+          signcolumn = "yes:1",
           wrap = true,
         },
         g = {},
@@ -45,12 +45,6 @@ return {
             end,
             desc = "Close buffer from tabline",
           },
-          -- Snacks explorer (file tree)
-          ["<Leader>e"] = { function() Snacks.explorer() end, desc = "File explorer" },
-          -- Snacks picker (fuzzy finder)
-          ["<Leader>fg"] = { function() Snacks.picker.grep() end, desc = "Grep" },
-          ["<Leader>fb"] = { function() Snacks.picker.buffers() end, desc = "Buffers" },
-          ["<Leader>fr"] = { function() Snacks.picker.recent() end, desc = "Recent files" },
           ["\\"] = false,
         },
       },

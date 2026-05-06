@@ -1,0 +1,3 @@
+set -gx IPYTHONDIR $XDG_CONFIG_HOME/ipython
+set -gx MPLCONFIGDIR $XDG_CACHE_HOME/matplotlib
+set -gx JUPYTER_CONFIG_DIR $XDG_CONFIG_HOME/jupyter

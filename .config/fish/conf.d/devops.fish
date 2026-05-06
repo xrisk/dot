@@ -1,0 +1,4 @@
+set -gx GRADLE_USER_HOME $XDG_DATA_HOME/gradle
+set -gx ANSIBLE_HOME $XDG_DATA_HOME/ansible
+set -gx DOCKER_CONFIG $XDG_CONFIG_HOME/docker
+set -gx KUBECONFIG $XDG_CONFIG_HOME/kube/config

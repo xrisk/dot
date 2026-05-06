@@ -22,6 +22,7 @@ vim.g.vimtex_view_method = "skim"
 vim.g.vimtex_quickfix_open_on_warning = 0
 
 vim.o.conceallevel = 2
+vim.opt.exrc = true
 
 vim.opt.rtp:prepend(lazypath)
 

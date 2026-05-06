@@ -15,6 +15,8 @@ return {
       ensure_installed = {
         "lua",
         "vim",
+        "diff",
+        "gitcommit",
         -- add more arguments for adding more treesitter parsers
       },
     },

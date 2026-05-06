@@ -24,7 +24,6 @@ abbr --add gd git diff
 
 set -gx EDITOR nvim
 
-fish_add_path "$HOME/.cargo/bin"
 fish_add_path $HOME/bin
 fish_add_path "/Users/xrisk/.local/bin"
 
@@ -64,20 +63,6 @@ set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
 
-set -gx PATH '/Users/xrisk/.rbenv/shims' $PATH
-set -gx RBENV_SHELL fish
-command rbenv rehash 2>/dev/null
-function rbenv
-  set command $argv[1]
-  set -e argv[1]
-
-  switch "$command"
-  case rehash shell
-    rbenv "sh-$command" $argv|source
-  case '*'
-    command rbenv "$command" $argv
-  end
-end
 
 
 
@@ -103,7 +88,28 @@ set -gx PATH $PATH /Users/xrisk/.lmstudio/bin
 # Added by Antigravity
 fish_add_path /Users/xrisk/.antigravity/antigravity/bin
 
-#set -gx ANTHROPIC_BASE_URL http://localhost:8001
+# set -gx ANTHROPIC_BASE_URL http://localhost:1234
 
 # set -x LM_API_TOKEN "sk-lm-Etq8dh7d:AMF114UXAKCiDdUNi26P"
-#set -gx ANTHROPIC_AUTH_TOKEN "sk-no-key-required"
+# set -gx ANTHROPIC_AUTH_TOKEN "lmstudio"
+#
+
+# export DYLD_LIBRARY_PATH="$(brew --prefix ffmpeg)/lib:$DYLD_LIBRARY_PATH"
+
+# set -gx DYLD_LIBRARY_PATH /opt/homebrew/opt/ffmpeg/lib $DYLD_LIBRARY_PATH
+
+set -gx DYLD_LIBRARY_PATH /opt/homebrew/opt/ffmpeg@7/lib
+
+set -gx UV_TORCH_BACKEND auto
+
+fish_add_path /opt/homebrew/opt/ffmpeg@7/bin
+set -gx LDFLAGS "-L/opt/homebrew/opt/ffmpeg@7/lib"
+set -gx CPPFLAGS "-I/opt/homebrew/opt/ffmpeg@7/include"
+set -gx PKG_CONFIG_PATH "/opt/homebrew/opt/ffmpeg@7/lib/pkgconfig"
+
+set -gx HF_TOKEN {REDACTED_HF_TOKEN}
+
+fish_add_path ~/bin
+
+zoxide init fish | source
+set -x LESS "-R --mouse --wheel-lines=3"
