@@ -1,28 +1,73 @@
 #!/usr/bin/env bash
 set -e
 
-echo "🔍 Scanning for secrets before push..."
+echo "🔍 Scanning push history for secrets..."
 
-output=$(git ls-files | grep -v -E '^(nvim/lazy-lock\.json|\.secrets\.baseline)$' | \
-  xargs uvx detect-secrets scan \
-  --exclude-files 'nvim/lazy-lock.json' 2>/dev/null)
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
 
-new_secrets=$(echo "$output" | python3 -c "
-import json, sys
+tmpfiles=()
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  # Skip deletions
+  [ "$local_sha" = "0000000000000000000000000000000000000000" ] && continue
+
+  # Commits to scan: new branch → everything not yet on any remote; update → new range only
+  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+    commits=$(git log --format="%H" "$local_sha" --not --remotes)
+  else
+    commits=$(git log --format="%H" "$remote_sha..$local_sha")
+  fi
+  [ -z "$commits" ] && continue
+
+  while IFS= read -r commit; do
+    files=$(git diff-tree --no-commit-id -r --name-only --diff-filter=ACM "$commit" \
+      | grep -v -E '^(nvim/lazy-lock\.json|\.secrets\.baseline)$' || true)
+    [ -z "$files" ] && continue
+
+    while IFS= read -r file; do
+      # Sanitize path into a unique tmp filename that encodes commit + path
+      safe="$tmpdir/${commit:0:8}__$(echo "$file" | tr '/' '__')"
+      git show "$commit:$file" > "$safe" 2>/dev/null || continue
+      tmpfiles+=("$safe")
+    done <<< "$files"
+  done <<< "$commits"
+done
+
+if [ ${#tmpfiles[@]} -eq 0 ]; then
+  echo "✅ No files to scan."
+  exit 0
+fi
+
+output=$(uvx detect-secrets scan "${tmpfiles[@]}" \
+  --exclude-files 'nvim/lazy-lock\.json' 2>/dev/null)
+
+result=$(echo "$output" | python3 - "$tmpdir" <<'PYEOF'
+import json, sys, os
+
+tmpdir = sys.argv[1]
 data = json.load(sys.stdin)
-findings = data.get('results', {})
-if findings:
-    for path, hits in findings.items():
-        for h in hits:
-            print(f'  {path}:{h[\"line_number\"]} — {h[\"type\"]}')
-    sys.exit(1)
-" 2>&1)
+findings = data.get("results", {})
+if not findings:
+    sys.exit(0)
+
+for path, hits in findings.items():
+    fname = os.path.basename(path)
+    # fname format: <8-char commit>__<sanitized file path>
+    commit = fname[:8]
+    orig = fname[10:].replace("__", "/")
+    for h in hits:
+        print(f"  commit {commit} — {orig}:{h['line_number']} — {h['type']}")
+sys.exit(1)
+PYEOF
+)
 
 if [ $? -ne 0 ]; then
-  echo "❌ Secrets detected — push blocked:"
-  echo "$new_secrets"
+  echo "❌ Secrets detected in commit history — push blocked:"
+  echo "$result"
   echo ""
-  echo "If this is a false positive, update the baseline:"
+  echo "Rewrite history to remove the secret (e.g. git rebase -i), then re-push."
+  echo "If a false positive, update the baseline:"
   echo "  uvx detect-secrets scan --all-files --exclude-files 'nvim/lazy-lock.json' > .secrets.baseline"
   echo "  git add .secrets.baseline && git commit"
   exit 1
