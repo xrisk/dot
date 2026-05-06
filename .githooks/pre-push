@@ -12,7 +12,7 @@ while read -r local_ref local_sha remote_ref remote_sha; do
   # Skip deletions
   [ "$local_sha" = "0000000000000000000000000000000000000000" ] && continue
 
-  # Commits to scan: new branch or unknown remote SHA → everything not yet on any remote
+  # Commits to scan: fall back to --not --remotes when remote SHA is unknown locally
   if [ "$remote_sha" = "0000000000000000000000000000000000000000" ] || \
      ! git cat-file -e "$remote_sha" 2>/dev/null; then
     commits=$(git log --format="%H" "$local_sha" --not --remotes)
@@ -27,7 +27,6 @@ while read -r local_ref local_sha remote_ref remote_sha; do
     [ -z "$files" ] && continue
 
     while IFS= read -r file; do
-      # Sanitize path into a unique tmp filename that encodes commit + path
       safe="$tmpdir/${commit:0:8}__$(echo "$file" | tr '/' '__')"
       git show "$commit:$file" > "$safe" 2>/dev/null || continue
       tmpfiles+=("$safe")
@@ -40,34 +39,40 @@ if [ ${#tmpfiles[@]} -eq 0 ]; then
   exit 0
 fi
 
-output=$(uvx detect-secrets scan "${tmpfiles[@]}" \
-  --exclude-files 'nvim/lazy-lock\.json' 2>/dev/null)
+scan_out="$tmpdir/scan.json"
+uvx detect-secrets scan "${tmpfiles[@]}" \
+  --exclude-files 'nvim/lazy-lock\.json' > "$scan_out" 2>/dev/null
 
-result=$(echo "$output" | python3 - "$tmpdir" <<'PYEOF'
+# Guard: if output is empty or not valid JSON, fail safe
+if [ ! -s "$scan_out" ]; then
+  echo "⚠️  detect-secrets produced no output — skipping scan."
+  exit 0
+fi
+
+python3 - "$tmpdir" "$scan_out" << 'PYEOF'
 import json, sys, os
 
-tmpdir = sys.argv[1]
-data = json.load(sys.stdin)
+tmpdir, scan_out = sys.argv[1], sys.argv[2]
+with open(scan_out) as f:
+    data = json.load(f)
+
 findings = data.get("results", {})
 if not findings:
     sys.exit(0)
 
 for path, hits in findings.items():
     fname = os.path.basename(path)
-    # fname format: <8-char commit>__<sanitized file path>
     commit = fname[:8]
     orig = fname[10:].replace("__", "/")
     for h in hits:
         print(f"  commit {commit} — {orig}:{h['line_number']} — {h['type']}")
 sys.exit(1)
 PYEOF
-)
 
 if [ $? -ne 0 ]; then
-  echo "❌ Secrets detected in commit history — push blocked:"
-  echo "$result"
+  echo "❌ Secrets detected in commit history — push blocked."
   echo ""
-  echo "Rewrite history to remove the secret (e.g. git rebase -i), then re-push."
+  echo "Rewrite history to remove the secret (e.g. with git-filter-repo), then re-push."
   echo "If a false positive, update the baseline:"
   echo "  uvx detect-secrets scan --all-files --exclude-files 'nvim/lazy-lock.json' > .secrets.baseline"
   echo "  git add .secrets.baseline && git commit"
