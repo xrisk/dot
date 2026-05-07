@@ -27,14 +27,16 @@ Example invocations:
 
 ## TODO block format
 
+Use LaTeX line comments. Each TODO block looks like this:
+
 ```
----
-**TODO**
-- bullet point describing the specific action
-- another bullet if needed
----
+% TODO:
+% - specific action to take
+% - another bullet if needed
 ```
+
+Place the block on its own line(s), between paragraphs or sections.
 
 ## Output
 
-Return the full augmented prose as a markdown code block or plain text — whichever preserves formatting better. Do not add any commentary outside the augmented prose itself.
+Return the full augmented prose as plain text (suitable for a `.tex` file). Do not add any commentary outside the augmented prose itself.
