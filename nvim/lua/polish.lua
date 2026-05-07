@@ -7,3 +7,5 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "tex", "latex" },
   callback = function() vim.treesitter.stop() end,
 })
+
+-- require("minuet").setup {}

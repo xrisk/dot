@@ -43,6 +43,19 @@ Files with `if true then return {} end` at the top are disabled. Remove that lin
 - **snacks.nvim** — bigfile enabled; dashboard disabled
 - **vim-colors-xcode** — extra colorscheme
 - **nvim-autopairs** — disabled
+- **minuet-ai.nvim** — ghost-text AI completions via Ollama; `openai_fim_compatible` provider, model `qwen2.5-coder:3b`, auto-triggers on `tex` files
+- **blink-cmp-dictionary** — English dictionary source for blink.cmp; reads `/usr/share/dict/words` + `~/.local/share/nvim/dict/aspell-en.txt` (aspell dump, ~105k words); active in `tex` files only. Regenerate aspell dump: `aspell -l en dump master | grep -v '^[[:upper:]]' | sort -u > ~/.local/share/nvim/dict/aspell-en.txt`
+- **conform.nvim** — `latexindent` formatter for `tex` files on save (timeout 3s, no LSP fallback)
+- **blink-cmp-rg.nvim** (`niuiic/blink-cmp-rg.nvim`) — ripgrep word source; searches git root with configurable subdirectory exclusions; `exclude_dirs` list in provider opts in `user.lua`
+
+## Thesis Writing Setup (blink-vimtex.lua + user.lua + astrocore.lua)
+
+The config is tuned for prose-only LaTeX thesis writing in `~/thesis`:
+
+- **blink-vimtex.lua**: vimtex source `score_offset = 15` (beats snippets/buffer); `per_filetype.tex` source order = `{ latex, lsp, path, ripgrep, buffer, dictionary }` — snippets excluded
+- **astrocore.lua**: FileType autocmd for `tex` enables `spell`, `linebreak`, `breakindent`, `showbreak`
+- **astrolsp.lua**: `harper_ls` added to `servers` — install with `brew install harper` or `:MasonInstall harper-ls`
+- **`niuiic/blink-cmp-rg.nvim`**: Note — this plugin's `get_command` takes `(context, prefix)` and returns a plain string table; `mikavilpas/blink-ripgrep.nvim` was NOT used because its `get_command` returns an internal `RipgrepCommand` object that can't be constructed externally
 
 ## Community Language Packs Enabled (community.lua)
 

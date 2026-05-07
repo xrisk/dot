@@ -29,7 +29,9 @@ return {
           signcolumn = "yes:1",
           wrap = true,
         },
-        g = {},
+        g = {
+          vimtex_syntax_nospell_comments = 1,
+        },
       },
       autocmds = {
         no_scroll_past_eof = {
@@ -41,6 +43,20 @@ return {
               local last_line = vim.fn.line("$")
               local ideal_topline = math.max(1, last_line - info.height + 1)
               if info.topline > ideal_topline then vim.fn.winrestview({ topline = ideal_topline }) end
+            end,
+          },
+        },
+        tex_prose = {
+          {
+            event = "FileType",
+            pattern = "tex",
+            desc = "Prose settings for LaTeX",
+            callback = function()
+              vim.opt_local.spell = true
+              vim.opt_local.spelllang = "en_us"
+              vim.opt_local.linebreak = true
+              vim.opt_local.breakindent = true
+              vim.opt_local.showbreak = "↪ "
             end,
           },
         },

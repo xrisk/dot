@@ -17,8 +17,11 @@ return {
       latex = {
         name = "vimtex",
         module = "blink.compat.source",
-        score_offset = -1,
+        score_offset = 15,
       },
+    })
+    opts.sources.per_filetype = vim.tbl_deep_extend("force", opts.sources.per_filetype or {}, {
+      tex = { "latex", "lsp", "path", "ripgrep", "buffer", "dictionary" },
     })
     return opts
   end,
