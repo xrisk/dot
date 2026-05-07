@@ -1,6 +1,7 @@
 # Secrets — load via .config/fish/conf.d/secrets.fish
 .config/fish/conf.d/secrets.fish
 
-# Claude Code local settings (machine-specific)
-.claude/
+# Claude Code local settings (machine-specific; commands/ is tracked for deployment)
+.claude/*
+!.claude/commands/
 nvim/.claude/
