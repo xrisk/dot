@@ -18,7 +18,7 @@ return {
         notifications = true,
       },
       diagnostics = {
-        virtual_text = false,
+        virtual_text = true,
         underline = true,
       },
       options = {
@@ -30,6 +30,20 @@ return {
           wrap = true,
         },
         g = {},
+      },
+      autocmds = {
+        no_scroll_past_eof = {
+          {
+            event = "WinScrolled",
+            callback = function()
+              local win = vim.api.nvim_get_current_win()
+              local info = vim.fn.getwininfo(win)[1]
+              local last_line = vim.fn.line("$")
+              local ideal_topline = math.max(1, last_line - info.height + 1)
+              if info.topline > ideal_topline then vim.fn.winrestview({ topline = ideal_topline }) end
+            end,
+          },
+        },
       },
       mappings = {
         n = {
