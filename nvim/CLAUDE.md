@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Session Hygiene
+
+At the end of every session where meaningful changes were made, update **both**:
+- `nvim/CLAUDE.md` (this file) — Neovim-specific discoveries, plugin notes, gotchas
+- `~/dot/CLAUDE.md` — repo-level notes if the change affects the broader dotfiles structure
+
 ## About This Repository
 
 This is an **AstroNvim v6** user configuration. AstroNvim is a Neovim IDE framework built on Lazy.nvim. This config layer sits on top of the framework; the framework itself is not in this repo.
@@ -21,6 +27,7 @@ This is an **AstroNvim v6** user configuration. AstroNvim is a Neovim IDE framew
 | `lua/plugins/user.lua` | Custom plugins and overrides. Main file to edit for new plugins. |
 | `lua/plugins/astrocore.lua` | Vim options, keymaps, treesitter, diagnostics. **Active** (guard removed). |
 | `lua/plugins/treesitter.lua` | Treesitter ensure_installed and settings (extends astrocore opts). |
+| `lua/plugins/heirline.lua` | Statusline, winbar, tabline, statuscolumn overrides. |
 
 ### Guard line pattern
 
@@ -47,6 +54,11 @@ Files with `if true then return {} end` at the top are disabled. Remove that lin
 - **blink-cmp-dictionary** — English dictionary source for blink.cmp; reads `/usr/share/dict/words` + `~/.local/share/nvim/dict/aspell-en.txt` (aspell dump, ~105k words); active in `tex` files only. Regenerate aspell dump: `aspell -l en dump master | grep -v '^[[:upper:]]' | sort -u > ~/.local/share/nvim/dict/aspell-en.txt`
 - **conform.nvim** — `latexindent` formatter for `tex` files on save (timeout 3s, no LSP fallback)
 - **blink-cmp-rg.nvim** (`niuiic/blink-cmp-rg.nvim`) — ripgrep word source; searches git root with configurable subdirectory exclusions; `exclude_dirs` list in provider opts in `user.lua`
+
+## Statusline (heirline.lua)
+
+- **Clock**: shows current time as `HH:MM AM/PM`; updates on mode change / buf enter; a `vim.uv` timer in `astrocore.lua` (`clock_refresh` autocmd) fires `redrawstatus` every 60 s (aligned to the minute boundary) to keep it accurate while idle.
+- **Word count**: shown for `tex`, `markdown`, `text` filetypes. For `tex`, uses `texcount -1 -sum -merge <file>` (reads from disk, so updates on `BufWritePost` / `BufEnter`); async via `vim.system` with a tick-based cache to avoid re-running on the `redrawstatus` triggered by its own completion. For other filetypes, falls back to `nvim-prose` (`vim.fn.wordcount()`). `texcount` ships with MacTeX/TeX Live — no separate install needed.
 
 ## Thesis Writing Setup (blink-vimtex.lua + user.lua + astrocore.lua)
 

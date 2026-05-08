@@ -28,12 +28,23 @@ return {
           spell = false,
           signcolumn = "yes:1",
           wrap = true,
+          guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr:hor20,o:hor50",
         },
         g = {
           vimtex_syntax_nospell_comments = 1,
         },
       },
       autocmds = {
+        kanagawa_cursor = {
+          {
+            event = "ColorScheme",
+            pattern = "kanagawa*",
+            callback = function()
+              -- lotusInk1 (#545464) is too gray; use near-black for contrast on lotus cream
+              vim.api.nvim_set_hl(0, "Cursor", { bg = "#1F1F28", fg = "#DCD7BA" })
+            end,
+          },
+        },
         no_scroll_past_eof = {
           {
             event = "WinScrolled",
@@ -43,6 +54,18 @@ return {
               local last_line = vim.fn.line("$")
               local ideal_topline = math.max(1, last_line - info.height + 1)
               if info.topline > ideal_topline then vim.fn.winrestview({ topline = ideal_topline }) end
+            end,
+          },
+        },
+        clock_refresh = {
+          {
+            event = "VimEnter",
+            callback = function()
+              vim.uv.new_timer():start(
+                (60 - tonumber(os.date "%S")) * 1000,
+                60000,
+                vim.schedule_wrap(function() vim.cmd.redrawstatus() end)
+              )
             end,
           },
         },

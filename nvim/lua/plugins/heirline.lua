@@ -7,6 +7,9 @@ return {
     local status = require "astroui.status"
     local prose = require "nvim-prose"
 
+    local tc_cache = { result = "", tick = -1, file = "" }
+    local tc_running = false
+
     opts.statusline = { -- statusline
       hl = { fg = "fg", bg = "bg" },
       status.component.mode(),
@@ -21,13 +24,45 @@ return {
       status.component.virtual_env(),
       status.component.treesitter(),
       status.component.nav(),
+      status.component.builder {
+        {
+          provider = function() return os.date "%I:%M %p" end,
+          update = { "ModeChanged", "BufEnter" },
+        },
+        padding = { left = 1, right = 1 },
+      },
       status.component.mode { surround = { separator = "right" } },
       status.component.builder {
         condition = function()
           return vim.tbl_contains({ "tex", "markdown", "text" }, vim.bo.filetype)
         end,
         {
-          provider = function() return prose.word_count() end,
+          provider = function()
+            if vim.bo.filetype ~= "tex" then return prose.word_count() end
+            local file = vim.api.nvim_buf_get_name(0)
+            local tick = vim.b.changedtick
+            if file ~= "" and not tc_running and (file ~= tc_cache.file or tick ~= tc_cache.tick) then
+              tc_running = true
+              tc_cache.tick = tick
+              tc_cache.file = file
+              vim.system(
+                { "texcount", "-1", "-sum", "-merge", file },
+                { text = true },
+                function(out)
+                  tc_running = false
+                  if out.code == 0 then
+                    local count = out.stdout:match "(%d+)"
+                    if count then
+                      tc_cache.result = count .. " words"
+                      vim.schedule(function() vim.cmd.redrawstatus() end)
+                    end
+                  end
+                end
+              )
+            end
+            return tc_cache.result
+          end,
+          update = { "BufEnter", "BufWritePost" },
         },
       },
     }

@@ -24,6 +24,8 @@ Each major tool has its own CLAUDE.md:
 - **Fish shell**: `.config/fish/CLAUDE.md`
 - **Neovim (AstroNvim v6)**: `nvim/CLAUDE.md`
 
+> **Session hygiene**: When working in `nvim/`, update both `nvim/CLAUDE.md` and this file if the change is relevant to the broader repo. `~/.config/nvim` is a symlink to `~/dot/nvim` — edits made from either path land in the same repo.
+
 ## Conventions
 
 - XDG Base Directory spec is enforced: all tool state goes under `~/.config`, `~/.local/share`, `~/.local/state`, or `~/.cache` — never directly in `$HOME`. New env-var overrides belong in `.config/fish/conf.d/`.
