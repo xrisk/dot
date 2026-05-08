@@ -68,7 +68,7 @@ return {
       context_window = 512,
       provider_options = {
         openai_fim_compatible = {
-          api_key = "TERM",
+          api_key = "TERM", -- pragma: allowlist secret
           name = "Ollama",
           end_point = "http://localhost:11434/v1/completions",
           model = "qwen2.5-coder:3b",
@@ -172,7 +172,8 @@ return {
     },
     keys = {
       { "<leader>a", nil, desc = "AI/Claude Code" },
-      { "<C-l>", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<C-g>", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<C-g>", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Toggle Claude" },
       { "<C-l>", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Toggle Claude" },
       { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
       { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
