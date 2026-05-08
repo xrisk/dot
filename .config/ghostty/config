@@ -1,0 +1,33 @@
+font-family = iA Writer Mono S
+theme = Kanagawa Lotus
+font-thicken = true
+# font-thicken-strength = 127
+# font-size = 14
+window-padding-x = 12
+window-padding-y = 12
+# adjust-cell-width = 0%
+#
+macos-titlebar-style = tabs
+
+# font-size = 15
+# adjust-cell-height = 20%
+adjust-underline-position = 2
+font-feature = -calt
+
+cursor-style = block
+shell-integration-features = no-cursor,sudo
+cursor-style-blink = false
+
+keybind = super+alt+h=goto_split:left
+keybind = super+alt+j=goto_split:down
+keybind = super+alt+k=goto_split:up
+keybind = super+alt+l=goto_split:right
+
+window-colorspace = display-p3
+
+# font-feature = -dlig
+
+macos-option-as-alt = true
+
+keybind = alt+left=unbind
+keybind = alt+right=unbind
