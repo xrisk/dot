@@ -193,48 +193,4 @@ return {
       { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     },
   },
-
-  {
-    "stevearc/aerial.nvim",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
-    },
-    opts = {
-      backends = { "lsp", "treesitter", "markdown", "man" },
-      layout = {
-        max_width = { 40, 0.2 },
-        min_width = 20,
-      },
-      show_guides = true,
-      filter_kind = false,
-      attach_mode = "global",
-      -- Auto-open for tex files so the outline is always visible when editing thesis
-      open_automatic = function(bufnr) return vim.bo[bufnr].filetype == "tex" end,
-    },
-    keys = {
-      { "<leader>o", "<cmd>AerialToggle<cr>", desc = "Toggle outline" },
-    },
-  },
-
-  {
-    "folke/edgy.nvim",
-    event = "VeryLazy",
-    init = function() vim.opt.splitkeep = "screen" end,
-    opts = {
-      left = {
-        {
-          title = "Files",
-          ft = "neo-tree",
-          filter = function(buf) return vim.b[buf].neo_tree_source == "filesystem" end,
-          size = { height = 0.6 },
-        },
-        {
-          title = "Outline",
-          ft = "aerial",
-          size = { height = 0.4 },
-        },
-      },
-    },
-  },
 }

@@ -54,8 +54,6 @@ Files with `if true then return {} end` at the top are disabled. Remove that lin
 - **blink-cmp-dictionary** — English dictionary source for blink.cmp; reads `/usr/share/dict/words` + `~/.local/share/nvim/dict/aspell-en.txt` (aspell dump, ~105k words); active in `tex` files only. Regenerate aspell dump: `aspell -l en dump master | grep -v '^[[:upper:]]' | sort -u > ~/.local/share/nvim/dict/aspell-en.txt`
 - **conform.nvim** — `latexindent` formatter for `tex` files on save (timeout 3s, no LSP fallback)
 - **blink-cmp-rg.nvim** (`niuiic/blink-cmp-rg.nvim`) — ripgrep word source; searches git root with configurable subdirectory exclusions; `exclude_dirs` list in provider opts in `user.lua`
-- **aerial.nvim** — document outline sidebar; auto-opens for `tex` files (shows section/subsection hierarchy via vimtex LSP); `<leader>o` to toggle manually; `filter_kind = false` (texlab only emits structural symbols anyway)
-- **edgy.nvim** — sidebar layout manager; stacks neo-tree (top 60%) and aerial outline (bottom 40%) in the left column; requires `vim.opt.splitkeep = "screen"` in init
 
 ## Statusline (heirline.lua)
 
