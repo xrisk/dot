@@ -1,0 +1,9 @@
+# Hermes Agent config — track only user-authored files
+*
+!.gitignore
+!config.yaml
+!skins/
+!skins/**
+!scripts/
+!scripts/**
+!SOUL.md

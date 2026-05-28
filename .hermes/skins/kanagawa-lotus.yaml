@@ -1,0 +1,83 @@
+name: kanagawa-lotus
+description: "Kanagawa Lotus — warm cream/parchment theme inspired by Hokusai's light palette"
+
+colors:
+  # ── Banner / Branding ────────────────────────────────────────────────
+  banner_border: "#43436c"         # lotusInk2 — deeper grayish-purple border
+  banner_title: "#4d699b"          # lotusBlue4 — signature kanagawa muted blue
+  banner_accent: "#624c83"         # lotusViolet4 — complementary violet accent
+  banner_dim: "#8a8980"            # lotusGray3 — comment/secondary text
+  banner_text: "#545464"           # lotusInk1 — main foreground (grayish purple)
+
+  # ── UI Accents ───────────────────────────────────────────────────────
+  ui_accent: "#624c83"             # lotusViolet4
+  ui_label: "#716e61"              # lotusGray2
+
+  # ── Semantic States ──────────────────────────────────────────────────
+  ui_ok: "#6f894e"                 # lotusGreen — string syntax green
+  ui_error: "#e82424"              # lotusRed3 — error red
+  ui_warn: "#e98a00"               # lotusOrange2 — warning orange
+
+  # ── Prompt & Input ───────────────────────────────────────────────────
+  prompt: "#545464"                # lotusInk1
+  input_rule: "#8a8980"            # lotusGray3 — subtle rule line
+
+  # ── Response Box ─────────────────────────────────────────────────────
+  response_border: "#4d699b"       # lotusBlue4
+
+  # ── Status Bar ───────────────────────────────────────────────────────
+  status_bar_bg: "#e5ddb0"         # lotusWhite2 — warm cream base
+  status_bar_text: "#545464"       # lotusInk1
+  status_bar_strong: "#4d699b"     # lotusBlue4
+  status_bar_dim: "#8a8980"        # lotusGray3
+  status_bar_good: "#6f894e"       # lotusGreen
+  status_bar_warn: "#77713f"       # lotusYellow
+  status_bar_bad: "#cc6d00"        # lotusOrange
+  status_bar_critical: "#c84053"   # lotusRed
+
+  # ── Session ──────────────────────────────────────────────────────────
+  session_label: "#4d699b"         # lotusBlue4
+  session_border: "#8a8980"        # lotusGray3
+
+  # ── TUI-specific ─────────────────────────────────────────────────────
+  voice_status_bg: "#e5ddb0"       # lotusWhite2
+  selection_bg: "#e7dba0"          # lotusWhite4 — visual select
+  completion_menu_bg: "#f2ecbc"    # lotusWhite3 — main bg cream
+  completion_menu_current_bg: "#e4d794"   # lotusWhite5 — search bg
+  completion_menu_meta_bg: "#dcd5ac"     # lotusWhite1
+  completion_menu_meta_current_bg: "#e4d794"  # lotusWhite5
+  shell_dollar: "#4d699b"          # lotusBlue4
+
+spinner:
+  waiting_faces:
+    - "(☰)"
+    - "(令)"
+    - "(凵)"
+    - "(丶)"
+    - "(〆)"
+  thinking_faces:
+    - "(水)"
+    - "(州)"
+    - "(川)"
+    - "(⌁)"
+    - "(◇)"
+  thinking_verbs:
+    - "brushing ink"
+    - "painting lotus"
+    - "mixing cream"
+    - "drawing lines"
+    - "blending shades"
+    - "sketching thoughts"
+  wings:
+    - ["⟪◇", "◇⟫"]
+    - ["⟪凵", "凵⟫"]
+    - ["⟪▲", "▲⟫"]
+    - ["⟪〆", "〆⟫"]
+
+branding:
+  agent_name: "Hermes Agent"
+  welcome: "Welcome to Hermes Agent! The lotus blooms in still waters."
+  goodbye: "Goodbye! The lotus folds its petals. ⚕"
+  response_label: " ⚕ Hermes "
+  prompt_symbol: "▸"
+  help_header: "(◇) Commands"
