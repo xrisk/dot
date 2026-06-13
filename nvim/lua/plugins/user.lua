@@ -1,10 +1,59 @@
 ---@type LazySpec
 return {
   {
+    "nickjvandyke/opencode.nvim",
+    enabled = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "folke/snacks.nvim",
+    },
+    event = "VeryLazy",
+    init = function()
+      vim.g.opencode_opts = {
+        server = {
+          host = "127.0.0.1",
+          port = 4096,
+        },
+        events = {
+          reload = true,
+        },
+      }
+    end,
+    keys = {
+      { "<C-,>", function() require("opencode").toggle() end, desc = "OpenCode: Ask" },
+      { "<C-g>", function() require("opencode").ask() end, mode = "v", desc = "OpenCode: Ask" },
+      { "<leader>os", function() require("opencode").select() end, desc = "OpenCode: Select Prompt" },
+      { "<leader>ot", function() require("opencode").toggle() end, desc = "OpenCode: Toggle" },
+      { "<leader>oy", function() require("opencode").accept() end, desc = "OpenCode: Accept Edit" },
+      { "<leader>on", function() require("opencode").reject() end, desc = "OpenCode: Reject Edit" },
+    },
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-mini/mini.icons",
+    },
+    ---@module "render-markdown"
+    ---@type render.md.UserConfig
+    opts = {
+      file_types = { "markdown" },
+      completions = {
+        lsp = {
+          enabled = true,
+        },
+      },
+    },
+  },
+  {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
         tex = { "tex-fmt" },
+      },
+      formatters = {
+        ["tex-fmt"] = { prepend_args = { "--nowrap" } },
       },
       format_on_save = function(bufnr)
         if vim.bo[bufnr].filetype == "tex" then return { timeout_ms = 3000, lsp_fallback = false } end
@@ -48,9 +97,8 @@ return {
 
   {
     "milanglacier/minuet-ai.nvim",
-    dependencies = {
-      "Saghen/blink.cmp",
-    },
+    event = "InsertEnter",
+    dependencies = { "Saghen/blink.cmp" },
     opts = {
       virtualtext = {
         auto_trigger_ft = { "tex" },
@@ -63,20 +111,78 @@ return {
           dismiss = "<A-e>",
         },
       },
-      provider = "openai_fim_compatible",
+      provider = "openai_compatible",
       n_completions = 1,
-      context_window = 512,
+      context_window = 1500,
+      request_timeout = 15,
+      notify = "warn",
       provider_options = {
-        openai_fim_compatible = {
-          api_key = "TERM", -- pragma: allowlist secret
-          name = "Ollama",
-          end_point = "http://localhost:11434/v1/completions",
-          model = "qwen2.5-coder:3b",
+        openai_compatible = {
+          api_key = "OPENROUTER_API_KEY", -- pragma: allowlist secret
+          name = "openrouter",
+          end_point = "https://openrouter.ai/api/v1/chat/completions",
+          model = "deepseek/deepseek-v4-flash",
+          stream = false,
+          few_shots = {
+            {
+              role = "user",
+              content = [[
+# language: tex
+<contextBeforeCursor>
+Social media platforms occupy a unique position as \emph{intermediaries}, giving them the power to <cursorPosition>
+<contextAfterCursor>
+and silence particular voices at scale.
+]],
+            },
+            {
+              role = "assistant",
+              content = "shape public discourse",
+            },
+            {
+              role = "user",
+              content = [[
+# language: tex
+<contextBeforeCursor>
+The decentralised architecture of the Fediverse distributes governance across multiple independent servers, each enforcing <cursorPosition>
+<contextAfterCursor>
+. This stands in contrast to centralised platforms, where a single entity sets policy for all users.
+]],
+            },
+            {
+              role = "assistant",
+              content = "its own moderation policies",
+            },
+          },
+          system = {
+            template = "{{{prompt}}}\n{{{guidelines}}}\n{{{n_completion_template}}}",
+            prompt = [[
+You are a text completion engine for a formal academic LaTeX document.
+Read the context around the cursor carefully and complete ONLY the phrase
+at <cursorPosition>. The completion must be grammatically and logically
+consistent with the sentence in progress.
+
+Input markers:
+- <contextBeforeCursor>: text before cursor
+- <cursorPosition>: where you insert
+- <contextAfterCursor>: text after cursor
+]],
+            guidelines = [[
+Guidelines:
+1. Output the completion text only — no labels, no numbering, no markdown.
+2. One completion. No <endCompletion> marker.
+3. A single short phrase of 3-4 words that continues the sentence naturally.
+4. Do NOT copy or repeat text from <contextBeforeCursor>.
+5. Honour LaTeX syntax in the surrounding text (\emph{}, \cite{}, \texttt{}, etc.).]],
+            n_completion_template = "",
+          },
           optional = {
-            max_tokens = 5,
             temperature = 0.2,
-            top_p = 0.5,
-            stop = { "\n", "\t" },
+            provider = {
+              sort = "throughput",
+            },
+            reasoning = {
+              exclude = true,
+            },
           },
         },
       },
@@ -110,7 +216,7 @@ return {
           module = "blink-cmp-dictionary",
           name = "Dict",
           min_keyword_length = 3,
-          score_offset = -3,
+          score_offset = 5,
           opts = {
             dictionary_files = { "/usr/share/dict/words", vim.fn.expand "~/.local/share/nvim/dict/aspell-en.txt" },
           },
@@ -160,37 +266,73 @@ return {
     },
   },
   {
-    "coder/claudecode.nvim",
-    dependencies = { "folke/snacks.nvim" },
+    "johnseth97/codex.nvim",
+    enabled = false,
+    cmd = { "Codex", "CodexToggle" },
     opts = {
-      diff_opts = {
-        layout = "vertical",
-        open_in_new_tab = true,
-        keep_terminal_focus = true,
-        hide_terminal_in_new_tab = false,
+      keymaps = {
+        toggle = nil,
+        quit = "<C-q>",
+      },
+      panel = true,
+    },
+    config = function(_, opts)
+      require("codex").setup(opts)
+    end,
+    keys = {
+      {
+        "<C-g>",
+        function() require("codex").toggle() end,
+        mode = { "n", "t" },
+        desc = "Codex: Toggle",
+        silent = true,
       },
     },
-    keys = {
-      { "<leader>a", nil, desc = "AI/Claude Code" },
-      { "<C-g>", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-      { "<C-g>", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Toggle Claude" },
-      { "<C-l>", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Toggle Claude" },
-      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
-      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
-      { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
-      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
-      {
-        "<leader>as",
-        "<cmd>ClaudeCodeTreeAdd<cr>",
-        desc = "Add file",
-        ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
+  },
+
+  {
+    "stevearc/aerial.nvim",
+    enabled = false,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {
+      backends = { "lsp", "treesitter", "markdown", "man" },
+      layout = {
+        max_width = { 40, 0.2 },
+        min_width = 20,
       },
-      -- Diff management
-      { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+      show_guides = true,
+      filter_kind = false,
+      attach_mode = "global",
+      -- Auto-open for tex files so the outline is always visible when editing thesis
+      open_automatic = function(bufnr) return vim.bo[bufnr].filetype == "tex" end,
+    },
+    keys = {
+      { "<leader>o", "<cmd>AerialToggle<cr>", desc = "Toggle outline" },
+    },
+  },
+
+  {
+    "folke/edgy.nvim",
+    enabled = false,
+    event = "VeryLazy",
+    init = function() vim.opt.splitkeep = "screen" end,
+    opts = {
+      left = {
+        {
+          title = "Files",
+          ft = "neo-tree",
+          filter = function(buf) return vim.b[buf].neo_tree_source == "filesystem" end,
+          size = { height = 0.6 },
+        },
+        {
+          title = "Outline",
+          ft = "aerial",
+          size = { height = 0.4 },
+        },
+      },
     },
   },
 }

@@ -46,14 +46,18 @@ Files with `if true then return {} end` at the top are disabled. Remove that lin
 - **persistence.nvim** — session management; auto-restores session when opening `~/thesis` with no args; closes neo-tree before saving sessions
 - **zen-mode.nvim** + **limelight.vim** — distraction-free writing
 - **venv-selector.nvim** — Python venv picker; configured for `uv` and `uv python` backends using `$FD`
-- **claudecode.nvim** — Claude Code integration (`<Leader>a*` keymaps); diffs open vertically in new tab
+- **claudecode.nvim** (`coder/claudecode.nvim`) — Claude Code integration; runs a WebSocket server (same protocol as the official VS Code/JetBrains extensions) that the `claude` CLI auto-connects to. Depends on `snacks.nvim` (terminal); `diff_opts` uses a vertical layout opened in a new tab. Keymaps under `<leader>a` (AI/Claude Code): `<C-g>` toggle (n + t), `<C-l>` toggle (t), `ac` toggle, `af` focus, `ar` resume, `aC` continue, `am` select model, `ab` add buffer, `as` send selection (v) / add tree file (in file explorers), `aa` accept diff, `ad` deny diff. Config in `lua/plugins/coder-claude.lua`
+- **codex.nvim** — OpenAI Codex integration (`<C-g>` toggle); opens as a side panel. **Disabled** (`enabled = false`) in favour of claudecode.nvim
+- **render-markdown.nvim** — active on `markdown` buffers; renders headings/lists/links/code blocks in-editor and enables markdown checkbox/callout completions through the plugin's in-process LSP hook
 - **snacks.nvim** — bigfile enabled; dashboard disabled
 - **vim-colors-xcode** — extra colorscheme
 - **nvim-autopairs** — disabled
-- **minuet-ai.nvim** — ghost-text AI completions via Ollama; `openai_fim_compatible` provider, model `qwen2.5-coder:3b`, auto-triggers on `tex` files
+- **minuet-ai.nvim** — ghost-text AI completions via OpenRouter free tier; `openai_compatible` provider, model `qwen/qwen3-8b:free`, auto-triggers on `tex` files only; `OPENROUTER_API_KEY` env var required; `context_window = 4000`, `max_tokens = 10` (3-4 word phrases); `notify = "debug"` — check `:messages` for latency
 - **blink-cmp-dictionary** — English dictionary source for blink.cmp; reads `/usr/share/dict/words` + `~/.local/share/nvim/dict/aspell-en.txt` (aspell dump, ~105k words); active in `tex` files only. Regenerate aspell dump: `aspell -l en dump master | grep -v '^[[:upper:]]' | sort -u > ~/.local/share/nvim/dict/aspell-en.txt`
 - **conform.nvim** — `latexindent` formatter for `tex` files on save (timeout 3s, no LSP fallback)
 - **blink-cmp-rg.nvim** (`niuiic/blink-cmp-rg.nvim`) — ripgrep word source; searches git root with configurable subdirectory exclusions; `exclude_dirs` list in provider opts in `user.lua`
+- **aerial.nvim** — document outline sidebar; auto-opens for `tex` files (shows section/subsection hierarchy via vimtex LSP); `<leader>o` to toggle manually; `filter_kind = false` (texlab only emits structural symbols anyway)
+- **edgy.nvim** — sidebar layout manager; stacks neo-tree (top 60%) and aerial outline (bottom 40%) in the left column; requires `vim.opt.splitkeep = "screen"` in init
 
 ## Statusline (heirline.lua)
 
@@ -66,7 +70,6 @@ The config is tuned for prose-only LaTeX thesis writing in `~/thesis`:
 
 - **blink-vimtex.lua**: vimtex source `score_offset = 15` (beats snippets/buffer); `per_filetype.tex` source order = `{ latex, lsp, path, ripgrep, buffer, dictionary }` — snippets excluded
 - **astrocore.lua**: FileType autocmd for `tex` enables `spell`, `linebreak`, `breakindent`, `showbreak`
-- **astrolsp.lua**: `harper_ls` added to `servers` — install with `brew install harper` or `:MasonInstall harper-ls`
 - **`niuiic/blink-cmp-rg.nvim`**: Note — this plugin's `get_command` takes `(context, prefix)` and returns a plain string table; `mikavilpas/blink-ripgrep.nvim` was NOT used because its `get_command` returns an internal `RipgrepCommand` object that can't be constructed externally
 
 ## Community Language Packs Enabled (community.lua)
