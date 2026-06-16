@@ -16,6 +16,7 @@ Config locations managed here:
 | `tmux.conf` | `~/.tmux.conf` |
 | `Brewfile` | Used with `brew bundle` |
 | `*.terminfo` | Compiled with `tic` and installed via `tic -x <file>` |
+| `macdown/*.css` | `~/Library/Application Support/MacDown 3000/Styles/` (symlinked per file) |
 
 ## Tool-specific CLAUDE.md files
 
@@ -24,7 +25,7 @@ Each major tool has its own CLAUDE.md:
 - **Fish shell**: `.config/fish/CLAUDE.md`
 - **Neovim (AstroNvim v6)**: `nvim/CLAUDE.md`
 
-> **Session hygiene**: When working in `nvim/`, update both `nvim/CLAUDE.md` and this file if the change is relevant to the broader repo. `~/.config/nvim` is a symlink to `~/dot/nvim` — edits made from either path land in the same repo.
+> **Session hygiene**: When working in any subdirectory that has its own `CLAUDE.md` (`nvim/`, `.config/fish/`), update both the child `CLAUDE.md` and this file if the change is relevant to the broader repo. `~/.config/nvim` is a symlink to `~/dot/nvim` and `~/.config/fish` is a symlink to `~/dot/.config/fish` — edits made from either path land in the same repo.
 
 ## Conventions
 
