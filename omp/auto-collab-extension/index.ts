@@ -12,6 +12,9 @@ const ENVELOPE_HEADER_BYTES = 4;
 const CONNECT_TIMEOUT_MS = 15_000;
 const DASHBOARD_REFRESH_MS = 60_000;
 const STATE_DEBOUNCE_MS = 50;
+const DASHBOARD_SUMMARY_MAX_CHARS = 320;
+const DASHBOARD_SUMMARY_SNIPPET_MAX_CHARS = 140;
+const DASHBOARD_SUMMARY_ENTRY_SCAN_LIMIT = 80;
 
 const SAFE_ENTRY_TYPES = new Set([
 	"message",
@@ -88,6 +91,7 @@ type DashboardRecord = {
 	pid: number;
 	joinLink: string;
 	webLink: string;
+	summary: string;
 	createdAt: string;
 	updatedAt: string;
 };
@@ -105,7 +109,7 @@ export default function autoCollab(pi: ExtensionAPI): void {
 	pi.setLabel("Auto Collab");
 	const api = pi as AutoCollabAPI;
 
-	api.on("session_start", async (_event, ctx) => {
+	api.on("session_start", async (_event: unknown, ctx: AutoCollabContext) => {
 		if (ctx.hasUI === false || host) return;
 		const next = new AutoCollabHost(api, ctx);
 		host = next;
@@ -124,7 +128,7 @@ export default function autoCollab(pi: ExtensionAPI): void {
 	});
 
 	for (const eventName of HOST_EVENTS) {
-		api.on(eventName, (event, ctx) => {
+		api.on(eventName, (event: unknown, ctx: AutoCollabContext) => {
 			const current = host;
 			if (!current) return;
 			void current.broadcastEvent(eventName, event, ctx);
@@ -420,6 +424,7 @@ class AutoCollabHost {
 			const existing = this.dashboardRecord;
 			const record = existing ?? await this.buildDashboardRecord(ctx, now);
 			record.updatedAt = now;
+			record.summary = await this.buildDashboardSummary(ctx);
 			const token = await this.getDashboardToken();
 			const response = await fetch(`${trimTrailingSlash(DASHBOARD_ORIGIN)}/api/sessions`, {
 				method: "POST",
@@ -449,9 +454,24 @@ class AutoCollabHost {
 			pid,
 			joinLink: this.links.joinLink,
 			webLink: this.links.webLink,
+			summary: await this.buildDashboardSummary(ctx),
 			createdAt: now,
 			updatedAt: now,
 		};
+	}
+
+	private async buildDashboardSummary(ctx: AutoCollabContext): Promise<string> {
+		const entries = await ctx.sessionManager.getEntries?.();
+		if (!Array.isArray(entries) || entries.length === 0) return "";
+		const snippets: string[] = [];
+		for (let index = entries.length - 1, seen = 0; index >= 0 && seen < DASHBOARD_SUMMARY_ENTRY_SCAN_LIMIT; index--, seen++) {
+			const entry = entries[index];
+			if (!isRecord(entry)) continue;
+			const text = summarizeEntry(entry);
+			if (text) snippets.push(text);
+			if (snippets.length >= 2) break;
+		}
+		return truncateText(snippets.reverse().join(" · "), DASHBOARD_SUMMARY_MAX_CHARS);
 	}
 
 	private async getDashboardToken(): Promise<string> {
@@ -558,6 +578,54 @@ function timingSafeEqual(expected: string, actual: string): boolean {
 		diff |= expected.charCodeAt(index % expected.length) ^ actual.charCodeAt(index % Math.max(actual.length, 1));
 	}
 	return diff === 0;
+}
+
+function summarizeEntry(entry: AnyRecord): string {
+	const type = typeof entry.type === "string" ? entry.type : "";
+	if (!SAFE_ENTRY_TYPES.has(type)) return "";
+	const text = truncateText(extractEntryText(entry), DASHBOARD_SUMMARY_SNIPPET_MAX_CHARS);
+	if (!text) return "";
+	return `${entryLabel(entry, type)}: ${text}`;
+}
+
+function entryLabel(entry: AnyRecord, type: string): string {
+	if (type === "branch_summary" || type === "compaction") return "Summary";
+	if (type === "custom_message") return "Note";
+	const role = typeof entry.role === "string" ? entry.role : typeof entry.author === "string" ? entry.author : "";
+	if (role.includes("user")) return "User";
+	if (role.includes("assistant")) return "Assistant";
+	if (role.includes("system")) return "System";
+	return "Message";
+}
+
+function extractEntryText(value: unknown, depth = 0): string {
+	if (depth > 4) return "";
+	if (typeof value === "string") return normalizeText(value);
+	if (Array.isArray(value)) {
+		const parts: string[] = [];
+		for (const item of value) {
+			const text = extractEntryText(item, depth + 1);
+			if (text) parts.push(text);
+			if (parts.join(" ").length >= DASHBOARD_SUMMARY_SNIPPET_MAX_CHARS) break;
+		}
+		return normalizeText(parts.join(" "));
+	}
+	if (!isRecord(value)) return "";
+	for (const key of ["summary", "text", "content", "message", "body", "markdown"]) {
+		const text = extractEntryText(value[key], depth + 1);
+		if (text) return text;
+	}
+	return "";
+}
+
+function truncateText(value: string, maxLength: number): string {
+	const text = normalizeText(value);
+	if (text.length <= maxLength) return text;
+	return `${text.slice(0, Math.max(0, maxLength - 1)).trimEnd()}…`;
+}
+
+function normalizeText(value: string): string {
+	return value.replace(/\s+/g, " ").trim();
 }
 
 async function dashboardId(webLink: string): Promise<string> {

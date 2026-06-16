@@ -161,7 +161,7 @@ The repo-owned auto-collab extension lives at:
 auto-collab-extension/index.ts
 ```
 
-The installed extension path at `/Users/xrisk/.omp/agent/extensions/auto-collab/index.ts` re-exports that implementation. On `session_start`, it quietly starts a collab host, registers the session with `https://omp.rishav.io/api/sessions`, and keeps the dashboard record fresh until shutdown.
+The installed extension path at `/Users/xrisk/.omp/agent/extensions/auto-collab/index.ts` re-exports that implementation. On `session_start`, it quietly starts a collab host, registers the session plus a bounded conversation summary with `https://omp.rishav.io/api/sessions`, and keeps the dashboard record fresh until shutdown.
 
 Maintenance note: the old PTY wrapper injection is intentionally disabled. `/Users/xrisk/.local/bin/omp` should only export `OMP_PID` and exec `omp.real`.
 

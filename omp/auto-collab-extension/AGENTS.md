@@ -37,8 +37,9 @@ On `session_start`, the extension:
 3. Generates an OMP-compatible collab room id, AES-256-GCM room key, and write token.
 4. Opens `wss://omp.rishav.io/r/<roomId>?role=host`.
 5. Registers a dashboard record at `https://omp.rishav.io/api/sessions` using `secret get omp-collab-dashboard-token` without printing the token.
-6. Refreshes the dashboard record every 60 seconds.
-7. Broadcasts lifecycle/tool/message events and state frames to connected guests.
+6. Adds a bounded conversation summary from safe session entries to the dashboard record.
+7. Refreshes the dashboard record every 60 seconds.
+8. Broadcasts lifecycle/tool/message events and state frames to connected guests.
 
 On `session_shutdown`, the extension sends `bye`, closes the socket, deletes its dashboard record, and clears timers.
 
@@ -115,7 +116,7 @@ Run from `~/dot/omp` unless noted.
 4. End-to-end startup:
    - Launch a fresh pty-backed interactive OMP session from `~/dot/omp`.
    - Wait until idle without typing.
-   - `https://omp.rishav.io/api/sessions` should contain a fresh record with `cwd: "/Users/xrisk/dot/omp"`, `title: "omp"`, `joinLink` starting with `omp.rishav.io/r/`, and `webLink` starting with `https://omp.rishav.io/client/#`.
+   - `https://omp.rishav.io/api/sessions` should contain a fresh record with `cwd: "/Users/xrisk/dot/omp"`, `title: "omp"`, `joinLink` starting with `omp.rishav.io/r/`, `webLink` starting with `https://omp.rishav.io/client/#`, and a `summary` string once safe message entries exist.
    - Captured terminal output should not contain `/collab`, `Collab session started`, join links, browser links, or dashboard output.
 5. Relay protocol:
    - From a same-origin page such as `https://omp.rishav.io`, open the guest websocket for the room, send encrypted `hello`, and decrypt the `welcome` frame.
