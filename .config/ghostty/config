@@ -1,15 +1,16 @@
-font-family = iA Writer Mono S
+# font-family = iA Writer Mono S
+font-family = LigaSFMono Nerd Font
 theme = Kanagawa Lotus
 font-thicken = true
 # font-thicken-strength = 127
-# font-size = 14
+
 window-padding-x = 12
 window-padding-y = 12
 # adjust-cell-width = 0%
 #
 macos-titlebar-style = tabs
 
-# font-size = 15
+
 # adjust-cell-height = 20%
 adjust-underline-position = 2
 font-feature = -calt
@@ -31,3 +32,5 @@ macos-option-as-alt = true
 
 keybind = alt+left=unbind
 keybind = alt+right=unbind
+font-size = 14
+

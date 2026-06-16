@@ -21,8 +21,13 @@ abbr --add gco git checkout
 abbr --add gp git push
 abbr --add gl git pull
 abbr --add gd git diff
+abbr --add hermes hermes --tui 
 
 set -gx EDITOR nvim
+
+set -gx FACTORIO_PATH /Applications/factorio.app/Contents
+set -gx FACTORIO_MODS_PATH "$HOME/Library/Application Support/factorio/mods"
+set -gx FACTORIO_USERNAME xrisk
 
 fish_add_path $HOME/bin
 fish_add_path "/Users/xrisk/.local/bin"
@@ -105,7 +110,7 @@ set -gx PKG_CONFIG_PATH "/opt/homebrew/opt/ffmpeg@7/lib/pkgconfig"
 
 fish_add_path ~/bin
 
-zoxide init fish | source
+zoxide init fish --cmd cd | source
 set -x LESS "-R --mouse --wheel-lines=3"
 
 # Load secrets (gitignored — put HF_TOKEN, API keys, etc. here)
@@ -113,3 +118,20 @@ set -l secrets_file $XDG_CONFIG_HOME/fish/conf.d/secrets.fish
 if test -f $secrets_file
     source $secrets_file
 end
+
+# export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
+# export ANTHROPIC_API_KEY="" # Important: Must be explicitly empty
+
+# export ANTHROPIC_DEFAULT_OPUS_MODEL="anthropic/claude-opus-4.7"
+# export ANTHROPIC_DEFAULT_SONNET_MODEL="anthropic/claude-sonnet-4.6"
+# export ANTHROPIC_DEFAULT_HAIKU_MODEL="anthropic/claude-haiku-4.5"
+# export CLAUDE_CODE_SUBAGENT_MODEL="anthropic/claude-opus-4.7"
+
+# export ANTHROPIC_DEFAULT_OPUS_MODEL="openrouter/free"
+# export ANTHROPIC_DEFAULT_SONNET_MODEL="openrouter/free"
+# export ANTHROPIC_DEFAULT_HAIKU_MODEL="openrouter/free"
+# export CLAUDE_CODE_SUBAGENT_MODEL="openrouter/free"
+# export OPENCODE_MODEL="openrouter/openrouter/free"
+
+
+# Replaced by conf.d/hermes-patches.fish — auto-syncs custom patches on launch

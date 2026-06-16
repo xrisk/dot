@@ -1,5 +1,6 @@
 # Secrets — load via .config/fish/conf.d/secrets.fish
 .config/fish/conf.d/secrets.fish
+password.txt
 
 # Claude Code local settings (machine-specific)
 .claude/

@@ -1,0 +1,332 @@
+/* =============================================================================
+ * Kanagawa Lotus — MacDown 3000 rendering theme, optimized for reading prose
+ * -----------------------------------------------------------------------------
+ * Palette + role mapping taken verbatim from rebelot/kanagawa.nvim
+ *   colors: lua/kanagawa/colors.lua  (PaletteColors → lotus*)
+ *   roles:  lua/kanagawa/themes.lua  (M.lotus → ui.* / syn.* / vcs.* / diag.*)
+ *
+ * Lotus is the light/parchment variant of Kanagawa. This stylesheet pairs that
+ * warm cream canvas with a comfortable reading measure (~66ch), 18px/1.75 type,
+ * and a book serif so long-form Markdown reads like a printed page. Code blocks
+ * are highlighted by MacDown's bundled Prism.js — every Prism token class below
+ * maps to the same lotus color rebelot's Neovim theme uses for that role.
+ *
+ * Code highlighting: MacDown 3000 ships Prism, so `.token.*` classes apply.
+ * To switch the body face to sans, set --font-body to var(--font-sans) below.
+ * ========================================================================== */
+
+:root {
+  /* ── Surfaces (ui.bg family) ──────────────────────────────────────────── */
+  --lotus-bg:        #f2ecbc; /* lotusWhite3  — ui.bg            (page)       */
+  --lotus-bg-m1:     #e5ddb0; /* lotusWhite2  — ui.bg_m1         (blockquote) */
+  --lotus-bg-dim:    #dcd5ac; /* lotusWhite1  — ui.bg_dim        (th / kbd)   */
+  --lotus-bg-code:   #d5cea3; /* lotusWhite0  — ui.float.bg      (code)       */
+  --lotus-sel:       #e4d794; /* lotusWhite5  — ui.bg_p2         (selection)  */
+  --lotus-rule:      #d5cea3; /* lotusWhite0                     (borders)    */
+
+  /* ── Ink (ui.fg family) ───────────────────────────────────────────────── */
+  --lotus-fg:        #545464; /* lotusInk1    — ui.fg            (body text)  */
+  --lotus-fg-strong: #43436c; /* lotusInk2    — ui.fg_dim        (headings)   */
+  --lotus-muted:     #716e61; /* lotusGray2                      (de-emphasis)*/
+  --lotus-comment:   #8a8980; /* lotusGray3   — syn.comment                   */
+  --lotus-nontext:   #a09cac; /* lotusViolet1 — ui.nontext                    */
+  --lotus-special:   #766b90; /* lotusViolet2 — ui.special       (quote bar)  */
+
+  /* ── Syntax (syn.* roles) ─────────────────────────────────────────────── */
+  --lotus-violet:    #624c83; /* lotusViolet4 — syn.keyword / statement       */
+  --lotus-blue:      #4d699b; /* lotusBlue4   — syn.fun / links                */
+  --lotus-blue-deep: #5d57a3; /* lotusBlue5   — syn.parameter / link hover     */
+  --lotus-green:     #6f894e; /* lotusGreen   — syn.string                     */
+  --lotus-green-vcs: #6e915f; /* lotusGreen2  — vcs.added                       */
+  --lotus-pink:      #b35b79; /* lotusPink    — syn.number                      */
+  --lotus-orange:    #cc6d00; /* lotusOrange  — syn.constant                    */
+  --lotus-yellow:    #77713f; /* lotusYellow  — syn.identifier                  */
+  --lotus-yellow2:   #836f4a; /* lotusYellow2 — syn.operator / regex            */
+  --lotus-red:       #c84053; /* lotusRed     — syn.preproc / special           */
+  --lotus-red-vcs:   #d7474b; /* lotusRed2    — vcs.removed                      */
+  --lotus-aqua:      #597b75; /* lotusAqua    — syn.type                        */
+  --lotus-teal:      #4e8ca2; /* lotusTeal1   — syn.punct                       */
+  --lotus-teal2:     #6693bf; /* lotusTeal2   — syn.special1                    */
+
+  /* ── Type stacks ──────────────────────────────────────────────────────── */
+  --font-serif: "Baskerville", "Iowan Old Style", "Palatino Linotype", Palatino, "Hoefler Text", Georgia, serif;
+  --font-sans:  "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:  "SF Mono", "Source Code Pro", "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+
+  --font-body: var(--font-serif); /* ← swap to var(--font-sans) for a sans read */
+}
+
+/* ── Canvas ───────────────────────────────────────────────────────────────*/
+html {
+  background-color: var(--lotus-bg);
+}
+body {
+  max-width: 42rem;                 /* ~66 characters at 18px → ideal measure  */
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 6rem;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--lotus-fg);
+  background-color: var(--lotus-bg);
+  font-feature-settings: "kern", "liga", "clig", "calt", "onum"; /* oldstyle figs */
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+}
+body > *:first-child { margin-top: 0; }
+body > *:last-child  { margin-bottom: 0; }
+
+/* ── Headings ───────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-body);
+  color: var(--lotus-fg-strong);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 2.2em 0 0.7em;
+}
+h1 {
+  font-size: 1.9em;
+  margin-top: 0;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--lotus-rule);
+}
+h2 {
+  font-size: 1.5em;
+  padding-bottom: 0.2em;
+  border-bottom: 1px solid var(--lotus-rule);
+}
+h3 { font-size: 1.25em; }
+h4 { font-size: 1.08em; }
+h5 { font-size: 1em;   color: var(--lotus-muted); }
+h6 {
+  font-size: 0.9em;
+  color: var(--lotus-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Body copy ──────────────────────────────────────────────────────────── */
+p { margin: 0 0 1.25em; }
+
+strong, b { color: var(--lotus-fg-strong); font-weight: 700; }
+em, i     { font-style: italic; }
+del       { color: var(--lotus-muted); text-decoration: line-through; }
+mark      { background: var(--lotus-sel); color: var(--lotus-fg-strong); padding: 0 0.15em; }
+sup, sub  { font-size: 0.75em; line-height: 0; }
+
+a {
+  color: var(--lotus-blue);
+  text-decoration: underline;
+  text-decoration-color: rgba(77, 105, 155, 0.4);
+  text-underline-offset: 2px;
+}
+a:hover {
+  color: var(--lotus-blue-deep);
+  text-decoration-color: currentColor;
+}
+
+/* ── Lists ──────────────────────────────────────────────────────────────── */
+ul, ol { margin: 0 0 1.25em; padding-left: 1.6em; }
+li { margin-bottom: 0.35em; }
+li > ul, li > ol { margin: 0.35em 0 0.35em; }
+li::marker { color: var(--lotus-special); }
+dl { margin: 0 0 1.25em; }
+dt { font-weight: 700; color: var(--lotus-fg-strong); }
+dd { margin: 0 0 0.6em 1.5em; }
+
+/* Task lists (MacDown tasklist.js) */
+ul.task-list, ol.task-list { list-style: none; padding-left: 0.4em; }
+li.task-list-item { list-style: none; }
+input[type="checkbox"] {
+  margin-right: 0.5em;
+  accent-color: var(--lotus-green);
+}
+
+/* ── Blockquotes ────────────────────────────────────────────────────────── */
+blockquote {
+  margin: 1.5em 0;
+  padding: 0.5em 1.2em;
+  color: var(--lotus-muted);
+  font-style: italic;
+  background: var(--lotus-bg-m1);
+  border-left: 3px solid var(--lotus-special);
+  border-radius: 0 4px 4px 0;
+}
+blockquote > :first-child { margin-top: 0; }
+blockquote > :last-child  { margin-bottom: 0; }
+
+/* ── Rules & figures ────────────────────────────────────────────────────── */
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--lotus-rule);
+  margin: 2.5em 0;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+figure { margin: 1.5em 0; }
+figcaption {
+  font-size: 0.9em;
+  color: var(--lotus-muted);
+  text-align: center;
+  margin-top: 0.5em;
+}
+
+/* ── Tables ─────────────────────────────────────────────────────────────── */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5em 0;
+  font-size: 0.95em;
+}
+th, td {
+  padding: 0.5em 0.85em;
+  border: 1px solid var(--lotus-rule);
+}
+th {
+  background: var(--lotus-bg-dim);
+  color: var(--lotus-fg-strong);
+  font-weight: 700;
+  text-align: left;
+}
+tr:nth-child(2n) td { background: var(--lotus-bg-m1); }
+
+/* ── Code: inline + blocks ──────────────────────────────────────────────── */
+code, pre, kbd, samp { font-family: var(--font-mono); }
+
+code {
+  font-size: 0.88em;
+  background: var(--lotus-bg-code);
+  color: var(--lotus-fg-strong);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+pre {
+  margin: 1.5em 0;
+  padding: 1em 1.15em;
+  background: var(--lotus-bg-code);
+  border: 1px solid rgba(84, 84, 100, 0.12);
+  border-radius: 6px;
+  overflow: auto;
+  font-size: 0.82em;
+  line-height: 1.55;
+}
+pre code {
+  background: none;
+  color: var(--lotus-fg);
+  padding: 0;
+  font-size: 1em;
+  border-radius: 0;
+}
+
+kbd {
+  font-size: 0.8em;
+  padding: 0.15em 0.5em;
+  color: var(--lotus-fg-strong);
+  background: var(--lotus-bg-dim);
+  border: 1px solid var(--lotus-rule);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+}
+
+/* ── Prism.js syntax tokens (mapped to rebelot's syn.* roles) ───────────── */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: var(--lotus-fg);
+  background: none;            /* the <pre> supplies the surface */
+  text-shadow: none;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  -moz-tab-size: 4;
+  tab-size: 4;
+  hyphens: none;
+}
+:not(pre) > code[class*="language-"] {
+  background: var(--lotus-bg-code);
+}
+
+.token.comment,
+.token.block-comment,
+.token.prolog,
+.token.doctype,
+.token.cdata        { color: var(--lotus-comment); font-style: italic; } /* syn.comment   */
+
+.token.punctuation  { color: var(--lotus-teal); }                        /* syn.punct     */
+
+.token.keyword,
+.token.atrule,
+.token.important,
+.token.tag,
+.token.namespace    { color: var(--lotus-violet); }                      /* syn.keyword   */
+
+.token.builtin,
+.token.class-name,
+.token.type         { color: var(--lotus-aqua); }                        /* syn.type      */
+
+.token.selector,
+.token.attr-name,
+.token.property     { color: var(--lotus-yellow); }                      /* syn.identifier*/
+
+.token.boolean,
+.token.constant,
+.token.symbol       { color: var(--lotus-orange); }                      /* syn.constant  */
+
+.token.number       { color: var(--lotus-pink); }                        /* syn.number    */
+
+.token.function,
+.token.function-name { color: var(--lotus-blue); }                       /* syn.fun       */
+
+.token.parameter    { color: var(--lotus-blue-deep); }                   /* syn.parameter */
+
+.token.string,
+.token.char,
+.token.attr-value   { color: var(--lotus-green); }                       /* syn.string    */
+
+.token.regex,
+.token.operator,
+.token.entity       { color: var(--lotus-yellow2); }                     /* syn.operator  */
+
+.token.url          { color: var(--lotus-blue); }
+.token.variable     { color: var(--lotus-fg); }                          /* syn.variable=none */
+
+.token.preprocessor,
+.token.directive    { color: var(--lotus-red); }                         /* syn.preproc   */
+
+.token.inserted     { color: var(--lotus-green-vcs); }                   /* vcs.added     */
+.token.deleted      { color: var(--lotus-red-vcs); }                     /* vcs.removed   */
+
+.token.important,
+.token.bold         { font-weight: 700; }
+.token.italic       { font-style: italic; }
+.token.entity       { cursor: help; }
+
+/* ── Footnotes ──────────────────────────────────────────────────────────── */
+.footnotes {
+  font-size: 0.9em;
+  color: var(--lotus-muted);
+  margin-top: 3em;
+  padding-top: 1em;
+  border-top: 1px solid var(--lotus-rule);
+}
+
+/* ── Selection ──────────────────────────────────────────────────────────── */
+::selection { background: var(--lotus-sel); }
+
+/* ── Narrow windows ─────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  body { font-size: 17px; padding: 2rem 1.1rem 4rem; }
+}
+
+/* ── Print: drop to ink-on-white, full width ────────────────────────────── */
+@media print {
+  html, body { background: #fff; color: #1a1a1a; }
+  body { max-width: none; margin: 0; }
+  a { color: #000; }
+  pre, code { background: #f4f2e6 !important; }
+  pre { border-color: #ddd; }
+  table, pre, blockquote { page-break-inside: avoid; }
+}
