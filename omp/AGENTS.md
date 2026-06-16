@@ -14,7 +14,7 @@ Keep the split clear: checked-in files describe or launch tooling; runtime state
 - `omp-node-tools/` is a private npm language-server bundle. It has no package scripts; the lockfile is the source of truth for resolved Node tools.
 - `scripts/start-hindsight-login.sh` starts the local Hindsight Podman runtime. It starts the Podman machine if needed, waits for readiness, fingerprints the existing container by image/ports/mounts, and recreates only when those inputs differ.
 - `agent/extensions/auto-collab/index.ts` is intentionally only an absolute re-export to the real implementation in `/Users/xrisk/dot/omp/auto-collab-extension/index.ts`. Do not add logic to the shim.
-- Auto-collab runtime flow is documented in `auto-collab-extension/AGENTS.md`: OMP session start opens a quiet host websocket, registers a dashboard record at `https://omp.rishav.io/api/sessions`, refreshes it, relays encrypted guest frames, accepts dashboard launch requests for new local chats, and deletes the record on shutdown.
+- Auto-collab runtime flow is documented in `auto-collab-extension/AGENTS.md`: OMP session start opens a quiet host websocket, registers a dashboard record at `https://omp.rishav.io/api/sessions`, refreshes it, relays encrypted guest frames, and deletes the record on shutdown. The generic dashboard new-chat launcher lives in `omp-remote/`.
 
 ## Key Directories
 
@@ -57,6 +57,7 @@ There is no root build, test, or CI pipeline.
 
 - `AGENTS.md` — repository guidance for AI assistants.
 - `auto-collab-extension/AGENTS.md` — source-of-truth runbook for OMP auto-collab behavior, secrets, and verification.
+- `omp-remote/` — source-controlled private relay/dashboard server. Its New chat form launches local/cloud OMP processes in selected project roots.
 - `Brewfile.omp` — Homebrew optional dependency manifest.
 - `omp-optional-deps.sh` — Ubuntu 24.04 optional dependency/bootstrap script.
 - `scripts/start-hindsight-login.sh` — local Hindsight Podman launcher.

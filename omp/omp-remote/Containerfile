@@ -1,0 +1,12 @@
+FROM docker.io/oven/bun:1-alpine
+RUN apk add --no-cache bash ca-certificates git openssh-client tmux
+
+WORKDIR /app
+COPY package.json server.ts ./
+COPY public ./public
+ENV NODE_ENV=production
+ENV PORT=7466
+ENV OMP_REMOTE_DATA_DIR=/data
+ENV PATH=/root/.local/bin:/usr/local/bin:/usr/bin:/bin
+EXPOSE 7466
+CMD ["bun", "run", "server.ts"]

@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OMP Remote Sessions</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #0b0d12;
+      color: #e7eaf0;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+
+    header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+
+    #status {
+      color: #9aa4b2;
+      font-size: 14px;
+    }
+
+    #launcher {
+      margin-bottom: 24px;
+      padding: 20px;
+      background: #11151d;
+      border: 1px solid #242b38;
+      border-radius: 12px;
+    }
+
+    #launcher h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    #launch-form {
+      display: flex;
+      gap: 10px;
+    }
+
+    #project-root {
+      flex: 1;
+      min-width: 0;
+      padding: 9px 11px;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #e7eaf0;
+      background: #0b0d12;
+      font: inherit;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    #launch-status {
+      margin-top: 10px;
+      color: #9aa4b2;
+      font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      #launch-form {
+        flex-direction: column;
+      }
+    }
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #11151d;
+      border: 1px solid #242b38;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid #242b38;
+      vertical-align: top;
+    }
+
+    th {
+      color: #9aa4b2;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: #151a23;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .title {
+      font-weight: 650;
+    }
+
+    .cwd {
+      color: #b9c1cc;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      word-break: break-all;
+    }
+
+    .summary {
+      margin-top: 8px;
+      color: #d4d9e2;
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 620px;
+    }
+
+    .muted {
+      color: #8f98a8;
+    }
+
+    a.button,
+    button.button {
+      display: inline-block;
+      padding: 8px 12px;
+      border: 0;
+      border-radius: 8px;
+      color: #081018;
+      background: #7dd3fc;
+      text-decoration: none;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.button:disabled {
+      cursor: default;
+      opacity: .65;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .button.secondary {
+      color: #dbeafe;
+      background: #1f2937;
+      border: 1px solid #334155;
+    }
+
+    #empty {
+      display: none;
+      padding: 32px;
+      text-align: center;
+      color: #9aa4b2;
+      background: #11151d;
+      border: 1px solid #242b38;
+      border-radius: 12px;
+    }
+
+    .error {
+      color: #fca5a5;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header>
+      <h1>OMP Remote Sessions</h1>
+      <div id="status">Loading…</div>
+    </header>
+    <section id="launcher">
+      <h2>New chat</h2>
+      <form id="launch-form">
+        <input id="project-root" list="project-roots" autocomplete="off" placeholder="/path/to/project" required>
+        <datalist id="project-roots"></datalist>
+        <button id="launch-button" class="button" type="submit">Launch</button>
+      </form>
+      <div id="launch-status">Choose a project root to start an online OMP chat on this host.</div>
+    </section>
+    <div id="empty">No active OMP sessions.</div>
+    <table id="sessions" hidden>
+      <thead>
+        <tr>
+          <th>Session</th>
+          <th>Terminal</th>
+          <th>Age</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+  <script>
+    const statusEl = document.getElementById('status');
+    const table = document.getElementById('sessions');
+    const tbody = table.querySelector('tbody');
+    const empty = document.getElementById('empty');
+    const launchForm = document.getElementById('launch-form');
+    const projectRoot = document.getElementById('project-root');
+    const projectRoots = document.getElementById('project-roots');
+    const launchButton = document.getElementById('launch-button');
+    const launchStatus = document.getElementById('launch-status');
+
+    function age(updatedAt) {
+      const seconds = Math.max(0, Math.floor((Date.now() - Date.parse(updatedAt)) / 1000));
+      if (seconds < 60) return `${seconds}s ago`;
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ago`;
+      return `${Math.floor(minutes / 60)}h ago`;
+    }
+
+    function render(sessions) {
+      tbody.textContent = '';
+      table.hidden = sessions.length === 0;
+      empty.style.display = sessions.length === 0 ? 'block' : 'none';
+      for (const session of sessions) {
+        const row = document.createElement('tr');
+        const sessionCell = document.createElement('td');
+        const title = document.createElement('div');
+        title.className = 'title';
+        title.textContent = session.title || session.cwd || session.id;
+        const cwd = document.createElement('div');
+        cwd.className = 'cwd';
+        cwd.textContent = session.cwd;
+        sessionCell.append(title, cwd);
+        if (session.summary) {
+          const summary = document.createElement('div');
+          summary.className = 'summary';
+          summary.textContent = session.summary;
+          sessionCell.append(summary);
+        }
+
+        const terminal = document.createElement('td');
+        const terminalName = document.createElement('span');
+        terminalName.className = 'muted';
+        terminalName.textContent = session.terminal || 'unknown';
+        const pid = document.createElement('span');
+        pid.className = 'muted';
+        pid.textContent = `pid ${session.pid}`;
+        terminal.append(terminalName, document.createElement('br'), pid);
+        const updated = document.createElement('td');
+        updated.textContent = age(session.updatedAt);
+        const action = document.createElement('td');
+        const open = document.createElement('a');
+        open.className = 'button';
+        open.href = `/client/#${session.joinLink}`;
+        open.textContent = 'Open';
+        action.append(open);
+        row.append(sessionCell, terminal, updated, action);
+        tbody.append(row);
+      }
+      statusEl.textContent = `Updated ${new Date().toLocaleTimeString()}`;
+    }
+
+    function setLaunchStatus(message, isError = false) {
+      launchStatus.className = isError ? 'error' : '';
+      launchStatus.textContent = message;
+    }
+
+    async function loadProjectRoots() {
+      try {
+        const response = await fetch('/api/project-roots', {cache: 'no-store'});
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        projectRoots.textContent = '';
+        for (const root of data.roots || []) {
+          if (!root || typeof root.path !== 'string') continue;
+          const option = document.createElement('option');
+          option.value = root.path;
+          option.label = root.title || root.path;
+          projectRoots.append(option);
+        }
+        if ((data.roots || []).length > 0) projectRoot.value = data.roots[0].path;
+        setLaunchStatus(data.allowCustom ? 'Choose or type a project root to start an online OMP chat on this host.' : 'Choose a configured project root to start an online OMP chat on this host.');
+      } catch (error) {
+        setLaunchStatus(`Failed to load project roots: ${error.message}`, true);
+      }
+    }
+
+    async function launchChat(root) {
+      launchButton.disabled = true;
+      const previous = launchButton.textContent;
+      launchButton.textContent = 'Launching…';
+      setLaunchStatus(`Launching ${root}…`);
+      try {
+        const response = await fetch('/api/launches', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({root}),
+        });
+        if (!response.ok) {
+          let detail = `HTTP ${response.status}`;
+          try {
+            const body = await response.json();
+            if (body && typeof body.error === 'string') detail = body.error;
+          } catch {
+          }
+          throw new Error(detail);
+        }
+        const body = await response.json();
+        setLaunchStatus(`Launch requested for ${body.root || root}. The session will appear below when OMP registers.`);
+        setTimeout(refresh, 2000);
+      } catch (error) {
+        setLaunchStatus(`Launch failed: ${error.message}`, true);
+      } finally {
+        launchButton.disabled = false;
+        launchButton.textContent = previous;
+      }
+    }
+
+    launchForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const root = projectRoot.value.trim();
+      if (!root) {
+        setLaunchStatus('Choose a project root first.', true);
+        return;
+      }
+      void launchChat(root);
+    });
+
+    async function refresh() {
+      try {
+        const response = await fetch('/api/sessions', {cache: 'no-store'});
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        render(await response.json());
+        statusEl.className = '';
+      } catch (error) {
+        statusEl.className = 'error';
+        statusEl.textContent = `Failed: ${error.message}`;
+      }
+    }
+
+    loadProjectRoots();
+    refresh();
+    setInterval(refresh, 15000);
+  </script>
+</body>
+
+</html>

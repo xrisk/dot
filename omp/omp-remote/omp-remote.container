@@ -1,0 +1,20 @@
+[Unit]
+Description=OMP private Collab relay, dashboard, and launcher
+Wants=wait-for-ip@ts.service
+After=network-online.target wait-for-ip@ts.service
+
+[Container]
+Image=localhost/omp-remote:latest
+ContainerName=omp-remote
+PublishPort=100.120.57.16:7466:7466
+EnvironmentFile=%h/.config/omp-remote/env
+Volume=%h/.local/share/omp-remote:/data:Z
+# Mount home when using containerized launch mode so selected project roots and ~/.local/bin/omp are visible inside the service namespace.
+Volume=%h:%h:rw
+
+[Service]
+Restart=always
+TimeoutStartSec=60
+
+[Install]
+WantedBy=default.target
