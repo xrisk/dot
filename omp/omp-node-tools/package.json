@@ -1,0 +1,13 @@
+{
+  "name": "omp-node-tools",
+  "private": true,
+  "description": "Node-based language servers used by the local OMP coding harness",
+  "dependencies": {
+    "@astrojs/language-server": "latest",
+    "@olrtg/emmet-language-server": "latest",
+    "@prisma/language-server": "latest",
+    "graphql-language-service-cli": "latest",
+    "svelte-language-server": "latest",
+    "vim-language-server": "latest"
+  }
+}

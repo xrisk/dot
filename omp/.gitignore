@@ -1,0 +1,19 @@
+# Runtime state, transcripts, caches, and local databases.
+/agent/*
+!/agent/extensions/
+!/agent/extensions/**
+!/agent/managed-skills/
+!/agent/managed-skills/**
+/logs/
+/session-worktrees/
+/.tmp-omp-remote/
+/natives/
+/venvs/
+
+# Installed dependency trees; keep manifests and lockfiles instead.
+/omp-python/.venv/
+/omp-node-tools/node_modules/
+/puppeteer/node_modules/
+
+# Generated local files.
+.DS_Store
