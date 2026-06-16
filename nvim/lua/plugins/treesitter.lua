@@ -13,6 +13,10 @@ return {
       indent = true, -- enable/disable treesitter based indentation
       auto_install = true, -- enable/disable automatic installation of detected languages
       ensure_installed = {
+        "markdown",
+        "markdown_inline",
+        "html",
+        "yaml",
         "lua",
         "vim",
         "diff",

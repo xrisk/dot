@@ -28,6 +28,7 @@ This is an **AstroNvim v6** user configuration. AstroNvim is a Neovim IDE framew
 | `lua/plugins/astrocore.lua` | Vim options, keymaps, treesitter, diagnostics. **Active** (guard removed). |
 | `lua/plugins/treesitter.lua` | Treesitter ensure_installed and settings (extends astrocore opts). |
 | `lua/plugins/heirline.lua` | Statusline, winbar, tabline, statuscolumn overrides. |
+| `lua/plugins/neo-tree.lua` | Neo-tree overrides; `O` keymap + right-click "Open Externally" PopUp item. |
 
 ### Guard line pattern
 
@@ -41,9 +42,16 @@ Files with `if true then return {} end` at the top are disabled. Remove that lin
 - **Keymaps**: `0`→`g0`, `$`→`g$` (navigate wrapped lines); `\` disabled; `]b`/`[b` for buffer navigation
 - **Colorscheme**: kanagawa
 
+## Neo-tree (neo-tree.lua)
+
+Open the node under the cursor in a macOS app via `open`. Markdown (`md`/`markdown`/`mdown`/`mkd`/`mkdn`/`markdn`) → MacDown 3000 (`open -a "MacDown 3000"`, bundle `app.macdown.macdown3000`); everything else / directories → default app. Async via `vim.system`; notifies on failure. Two triggers:
+
+- **`O` keymap** in the tree window (via `opts.commands.open_external` + `opts.window.mappings`). `O` is free by default (`o` is neo-tree's order-by prefix).
+- **Right-click "Open Externally"** in Neovim's built-in `PopUp` menu. The neo-tree right-click menu is Neovim's own `PopUp` (default `mousemodel=popup_setpos`), **not** the terminal's — right-click moves the cursor to the file, then the item opens it. The `NeoTreeOpenExternal` user command resolves the node from `vim.b.neo_tree_source`'s state. The menu item is added on `BufEnter`/removed on `BufLeave` of neo-tree buffers (augroup `NeoTreeExternalMenu`) so the normal-buffer popup stays clean.
+
 ## Active Plugins (user.lua)
 
-- **persistence.nvim** — session management; auto-restores session when opening `~/thesis` with no args; closes neo-tree before saving sessions
+- **persistence.nvim** — session management; auto-restores session when opening `~/thesis` with no args. **Neo-tree + session gotcha**: `mksession` persists every listed buffer, so a neo-tree buffer (`neo-tree filesystem [N]`) gets written into the session; on restore neo-tree's `nvim_buf_set_name` collides → `E95: Buffer with this name already exists` (logged as `debounce filesystem_navigate error`), and the tree won't render. Just closing the window (`Neotree close`) is insufficient — it can fail on a modified buffer, leaving it listed. Fix: `wipe_neotree_buffers()` force-deletes any buffer with `filetype == "neo-tree"` or name `^neo-tree ` on **`PersistenceSavePre`** (clean saves) and **`PersistenceLoadPost`** (scrub already-poisoned sessions on load). To unblock a live session: wipe those buffers, then reopen neo-tree.
 - **zen-mode.nvim** + **limelight.vim** — distraction-free writing
 - **venv-selector.nvim** — Python venv picker; configured for `uv` and `uv python` backends using `$FD`
 - **claudecode.nvim** (`coder/claudecode.nvim`) — Claude Code integration; runs a WebSocket server (same protocol as the official VS Code/JetBrains extensions) that the `claude` CLI auto-connects to. Depends on `snacks.nvim` (terminal); `diff_opts` uses a vertical layout opened in a new tab. Keymaps under `<leader>a` (AI/Claude Code): `<C-g>` toggle (n + t), `<C-l>` toggle (t), `ac` toggle, `af` focus, `ar` resume, `aC` continue, `am` select model, `ab` add buffer, `as` send selection (v) / add tree file (in file explorers), `aa` accept diff, `ad` deny diff. Config in `lua/plugins/coder-claude.lua`

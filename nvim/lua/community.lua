@@ -13,6 +13,8 @@ return {
   { import = "astrocommunity.pack.python" },
   { import = "astrocommunity.pack.ruby" },
   { import = "astrocommunity.colorscheme.solarized-osaka-nvim" },
+  { import = "astrocommunity.colorscheme.rose-pine" },
+  { import = "astrocommunity.colorscheme.tokyonight-nvim" },
   { import = "astrocommunity.markdown-and-latex.vimtex" },
   { import = "astrocommunity.pack.go" },
   { import = "astrocommunity.pack.cpp" },
@@ -22,5 +24,6 @@ return {
   { import = "astrocommunity.pack.zig" },
   -- { import = "astrocommunity.pack.haskell" },
   { import = "astrocommunity.git.neogit" },
-  -- { import = "astrocommunity.ai.codecompanion-nvim" },
+  { import = "astrocommunity.motion.nvim-surround" },
+   -- { import = "astrocommunity.ai.codecompanion-nvim" },
 }

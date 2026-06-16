@@ -10,6 +10,20 @@ return {
     local tc_cache = { result = "", tick = -1, file = "" }
     local tc_running = false
 
+    local vimtex_state = nil
+    local vtex_group = vim.api.nvim_create_augroup("HeirlineVimtex", { clear = true })
+    local function set_vtex(state)
+      return function()
+        vimtex_state = state
+        vim.cmd.redrawstatus()
+      end
+    end
+    vim.api.nvim_create_autocmd("User", { group = vtex_group, pattern = "VimtexEventCompileStarted", callback = set_vtex "running" })
+    vim.api.nvim_create_autocmd("User", { group = vtex_group, pattern = "VimtexEventCompileRunning", callback = set_vtex "running" })
+    vim.api.nvim_create_autocmd("User", { group = vtex_group, pattern = "VimtexEventCompileSuccess", callback = set_vtex "success" })
+    vim.api.nvim_create_autocmd("User", { group = vtex_group, pattern = "VimtexEventCompileFailed", callback = set_vtex "failed" })
+    vim.api.nvim_create_autocmd("User", { group = vtex_group, pattern = "VimtexEventCompileStopped", callback = set_vtex(nil) })
+
     opts.statusline = { -- statusline
       hl = { fg = "fg", bg = "bg" },
       status.component.mode(),
@@ -64,6 +78,25 @@ return {
           end,
           update = { "BufEnter", "BufWritePost" },
         },
+      },
+      status.component.builder {
+        condition = function() return vim.bo.filetype == "tex" and vimtex_state ~= nil end,
+        {
+          provider = function()
+            if vimtex_state == "running" then return "⟳ compiling"
+            elseif vimtex_state == "success" then return "✓ ok"
+            elseif vimtex_state == "failed" then return "✗ errors"
+            end
+            return ""
+          end,
+          hl = function()
+            if vimtex_state == "running" then return { fg = "yellow" }
+            elseif vimtex_state == "success" then return { fg = "green" }
+            elseif vimtex_state == "failed" then return { fg = "red" }
+            end
+          end,
+        },
+        padding = { left = 1, right = 1 },
       },
     }
 

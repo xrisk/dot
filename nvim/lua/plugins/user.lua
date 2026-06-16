@@ -68,10 +68,35 @@ return {
     opts = {},
     config = function(_, opts)
       require("persistence").setup(opts)
-      -- Close neo-tree before saving so its window isn't stored in the session
+      -- Keep neo-tree out of saved sessions. mksession persists every listed
+      -- buffer, so a neo-tree buffer (e.g. "neo-tree filesystem [2]") gets
+      -- written into the session; on restore neo-tree tries to reclaim that
+      -- name and dies with "E95: Buffer with this name already exists",
+      -- breaking the tree. Closing the window isn't enough (it can fail if a
+      -- buffer is modified, leaving the buffer listed) — force-wipe instead.
+      local function wipe_neotree_buffers()
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.api.nvim_buf_is_valid(buf) then
+            local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t")
+            if vim.bo[buf].filetype == "neo-tree" or name:match "^neo%-tree " then
+              pcall(vim.api.nvim_buf_delete, buf, { force = true })
+            end
+          end
+        end
+      end
+      -- Before saving: drop neo-tree buffers so the new session is clean.
       vim.api.nvim_create_autocmd("User", {
         pattern = "PersistenceSavePre",
-        callback = function() pcall(vim.cmd, "Neotree close") end,
+        callback = function()
+          pcall(vim.cmd, "Neotree close")
+          wipe_neotree_buffers()
+        end,
+      })
+      -- After loading: scrub any neo-tree-named buffer an older (already
+      -- poisoned) session restored, before neo-tree is opened again.
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "PersistenceLoadPost",
+        callback = wipe_neotree_buffers,
       })
       vim.api.nvim_create_autocmd("VimEnter", {
         once = true,
@@ -97,6 +122,7 @@ return {
 
   {
     "milanglacier/minuet-ai.nvim",
+    enabled = false,
     event = "InsertEnter",
     dependencies = { "Saghen/blink.cmp" },
     opts = {
@@ -276,9 +302,7 @@ Guidelines:
       },
       panel = true,
     },
-    config = function(_, opts)
-      require("codex").setup(opts)
-    end,
+    config = function(_, opts) require("codex").setup(opts) end,
     keys = {
       {
         "<C-g>",
