@@ -1,8 +1,8 @@
-# OMP auto-collab
+# Auto-collab extension guidance
 
 Last verified: 2026-06-16 on `xrisk`'s Mac.
 
-This documents the current auto-collab cutover so future agents do not reintroduce the old PTY `/collab` wrapper.
+This directory owns the OMP auto-collab implementation. Keep future changes here so agents do not reintroduce the old PTY `/collab` wrapper.
 
 ## Goal
 
@@ -24,11 +24,11 @@ The installed extension shim intentionally contains only:
 export { default } from "/Users/xrisk/dot/omp/auto-collab-extension/index.ts";
 ```
 
-Keep the implementation in the repo-owned subdirectory. Do not expand the installed shim back into a second implementation.
+Keep the implementation in this repo-owned subdirectory. Do not expand the installed shim back into a second implementation.
 
 ## Runtime behavior
 
-`auto-collab-extension/index.ts` exports `autoCollab(pi)` and keeps the label `Auto Collab`.
+`index.ts` exports `autoCollab(pi)` and keeps the label `Auto Collab`.
 
 On `session_start`, the extension:
 
