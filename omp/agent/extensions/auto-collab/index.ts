@@ -1,1 +1,1 @@
-export { default } from "/Users/xrisk/dev/rishavs-omp/auto-collab-extension/index.ts";
+export { default } from "/Users/xrisk/dot/omp/auto-collab-extension/index.ts";

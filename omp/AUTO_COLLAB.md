@@ -10,7 +10,7 @@ Every interactive OMP session started through `omp` should appear on `https://om
 
 ## Source of truth
 
-- Repo implementation: `~/dev/rishavs-omp/auto-collab-extension/index.ts`
+- Repo implementation: `~/dot/omp/auto-collab-extension/index.ts`
 - Installed extension shim: `~/.omp/agent/extensions/auto-collab/index.ts`
 - OMP config path remains: `~/.omp/agent/config.yml`
 - Wrapper: `~/.local/bin/omp`
@@ -21,7 +21,7 @@ Every interactive OMP session started through `omp` should appear on `https://om
 The installed extension shim intentionally contains only:
 
 ```ts
-export { default } from "/Users/xrisk/dev/rishavs-omp/auto-collab-extension/index.ts";
+export { default } from "/Users/xrisk/dot/omp/auto-collab-extension/index.ts";
 ```
 
 Keep the implementation in the repo-owned subdirectory. Do not expand the installed shim back into a second implementation.
@@ -101,7 +101,7 @@ The extension itself runs `secret get omp-collab-dashboard-token` with stdout pi
 
 ## Verification checklist
 
-Run from `~/dev/rishavs-omp` unless noted.
+Run from `~/dot/omp` unless noted.
 
 1. Static check:
    - Preferred when available: `bun --check auto-collab-extension/index.ts`
@@ -113,9 +113,9 @@ Run from `~/dev/rishavs-omp` unless noted.
 3. Secret:
    - `secret ls` includes `omp-collab-dashboard-token`; do not run a bare `secret get`.
 4. End-to-end startup:
-   - Launch a fresh pty-backed interactive OMP session from `~/dev/rishavs-omp`.
+   - Launch a fresh pty-backed interactive OMP session from `~/dot/omp`.
    - Wait until idle without typing.
-   - `https://omp.rishav.io/api/sessions` should contain a fresh record with `cwd: "/Users/xrisk/dev/rishavs-omp"`, `title: "rishavs-omp"`, `joinLink` starting with `omp.rishav.io/r/`, and `webLink` starting with `https://omp.rishav.io/client/#`.
+   - `https://omp.rishav.io/api/sessions` should contain a fresh record with `cwd: "/Users/xrisk/dot/omp"`, `title: "omp"`, `joinLink` starting with `omp.rishav.io/r/`, and `webLink` starting with `https://omp.rishav.io/client/#`.
    - Captured terminal output should not contain `/collab`, `Collab session started`, join links, browser links, or dashboard output.
 5. Relay protocol:
    - From a same-origin page such as `https://omp.rishav.io`, open the guest websocket for the room, send encrypted `hello`, and decrypt the `welcome` frame.

@@ -9,14 +9,14 @@ Use this when asked to inspect, repair, optimize, or document Hindsight, OMP rem
 
 ## Source of truth
 
-- Documentation: `~/dev/rishavs-omp/README.md`
+- Documentation: `~/dot/omp/README.md`
 - Auto-collab maintenance notes: `~/dot/omp/AUTO_COLLAB.md`
 - LaunchAgent: `~/Library/LaunchAgents/io.rishav.hindsight.plist`
 - Launcher: `~/.omp/scripts/start-hindsight-login.sh`
 - Codex hooks: `~/.codex/hooks.json`
 - Hindsight Codex hook scripts: `~/.hindsight/codex/scripts`
 - Hindsight Codex config: `~/.hindsight/codex.json`
-- OMP auto-collab extension implementation: `~/dev/rishavs-omp/auto-collab-extension/index.ts`
+- OMP auto-collab extension implementation: `~/dot/omp/auto-collab-extension/index.ts`
 - OMP installed auto-collab shim: `~/.omp/agent/extensions/auto-collab/index.ts`
 - OMP wrapper: `~/.local/bin/omp`
 
@@ -32,7 +32,7 @@ Use this when asked to inspect, repair, optimize, or document Hindsight, OMP rem
 
 ## OMP auto-collab invariants
 
-- `~/.omp/agent/extensions/auto-collab/index.ts` should stay a tiny absolute re-export to `~/dev/rishavs-omp/auto-collab-extension/index.ts`.
+- `~/.omp/agent/extensions/auto-collab/index.ts` should stay a tiny absolute re-export to `~/dot/omp/auto-collab-extension/index.ts`.
 - `~/.local/bin/omp` should only export `OMP_PID` and exec `~/.local/bin/omp.real`; do not restore PTY scraping or delayed `/collab` injection.
 - The extension starts a quiet collab host on `session_start`, registers with `https://omp.rishav.io/api/sessions`, refreshes the record, and deletes it on shutdown.
 - Dashboard auth uses `secret get omp-collab-dashboard-token` inline. Never print the token or put it in prompts/files.
