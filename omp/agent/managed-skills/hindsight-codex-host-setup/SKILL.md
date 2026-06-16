@@ -1,20 +1,24 @@
 ---
 name: hindsight-codex-host-setup
-description: "Use when maintaining this Mac's local Hindsight Podman runtime and Codex hook integration."
+description: "Use when maintaining this Mac's local Hindsight runtime, Codex hooks, OMP remote sessions, or auto-collab."
 ---
 
 # Local Hindsight + Codex maintenance
 
-Use this when asked to inspect, repair, optimize, or document Hindsight on xrisk's Mac.
+Use this when asked to inspect, repair, optimize, or document Hindsight, OMP remote sessions, or auto-collab on xrisk's Mac.
 
 ## Source of truth
 
 - Documentation: `~/dev/rishavs-omp/README.md`
+- Auto-collab maintenance notes: `~/dot/omp/AUTO_COLLAB.md`
 - LaunchAgent: `~/Library/LaunchAgents/io.rishav.hindsight.plist`
 - Launcher: `~/.omp/scripts/start-hindsight-login.sh`
 - Codex hooks: `~/.codex/hooks.json`
 - Hindsight Codex hook scripts: `~/.hindsight/codex/scripts`
 - Hindsight Codex config: `~/.hindsight/codex.json`
+- OMP auto-collab extension implementation: `~/dev/rishavs-omp/auto-collab-extension/index.ts`
+- OMP installed auto-collab shim: `~/.omp/agent/extensions/auto-collab/index.ts`
+- OMP wrapper: `~/.local/bin/omp`
 
 ## Runtime invariants
 
@@ -25,6 +29,14 @@ Use this when asked to inspect, repair, optimize, or document Hindsight on xrisk
 - Persistent data: `/Users/xrisk/.hindsight-podman` mounted at `/home/hindsight/.pg0`
 - Codex history: `/Users/xrisk/.codex` mounted read-only at `/home/hindsight/.codex`
 - API/UI must bind to `127.0.0.1`, not `0.0.0.0`
+
+## OMP auto-collab invariants
+
+- `~/.omp/agent/extensions/auto-collab/index.ts` should stay a tiny absolute re-export to `~/dev/rishavs-omp/auto-collab-extension/index.ts`.
+- `~/.local/bin/omp` should only export `OMP_PID` and exec `~/.local/bin/omp.real`; do not restore PTY scraping or delayed `/collab` injection.
+- The extension starts a quiet collab host on `session_start`, registers with `https://omp.rishav.io/api/sessions`, refreshes the record, and deletes it on shutdown.
+- Dashboard auth uses `secret get omp-collab-dashboard-token` inline. Never print the token or put it in prompts/files.
+- For detailed protocol notes and verification, read `~/dot/omp/AUTO_COLLAB.md`.
 
 ## Checks
 
