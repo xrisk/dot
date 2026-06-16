@@ -3,6 +3,8 @@ import type { ExtensionAPI, ExtensionContext } from "@oh-my-pi/pi-coding-agent";
 const RELAY_URL = Bun.env.OMP_AUTO_COLLAB_RELAY_URL ?? "wss://omp.rishav.io";
 const DASHBOARD_ORIGIN = Bun.env.OMP_AUTO_COLLAB_DASHBOARD_ORIGIN ?? "https://omp.rishav.io";
 const TOKEN_NAME = Bun.env.OMP_AUTO_COLLAB_TOKEN_NAME ?? "omp-collab-dashboard-token";
+const LAUNCH_APP = Bun.env.OMP_AUTO_COLLAB_LAUNCH_APP ?? "Ghostty";
+const LAUNCH_COMMAND = Bun.env.OMP_AUTO_COLLAB_LAUNCH_COMMAND ?? "/Users/xrisk/.local/bin/omp";
 const COLLAB_PROTO = 1;
 const ROOM_ID_BYTES = 16;
 const ROOM_KEY_BYTES = 32;
@@ -259,7 +261,26 @@ class AutoCollabHost {
 		if (frame.t === "peer-left" && peer !== undefined) {
 			this.guests.delete(peer);
 			void this.broadcastState(this.ctx);
+			return;
 		}
+		if (frame.t === "launch-request") {
+			this.launchNewChat();
+		}
+	}
+
+	private launchNewChat(): void {
+		const proc = Bun.spawn([
+			"open",
+			"-na",
+			LAUNCH_APP,
+			"--args",
+			`--working-directory=${this.ctx.cwd}`,
+			"-e",
+			LAUNCH_COMMAND,
+		], { stdout: "ignore", stderr: "ignore" });
+		void proc.exited.then((code) => {
+			if (code !== 0) this.api.logger?.warn?.(`auto-collab launch failed with exit code ${code}`);
+		});
 	}
 
 	private async handleGuestFrame(envelope: Uint8Array): Promise<void> {

@@ -39,6 +39,7 @@ On `session_start`, the extension:
 5. Registers a dashboard record at `https://omp.rishav.io/api/sessions` using `secret get omp-collab-dashboard-token` without printing the token.
 6. Refreshes the dashboard record every 60 seconds.
 7. Broadcasts lifecycle/tool/message events and state frames to connected guests.
+8. Accepts dashboard `launch-request` control frames and starts a new local OMP chat in the same `ctx.cwd` via `open -na Ghostty --args --working-directory=<cwd> -e /Users/xrisk/.local/bin/omp` by default.
 
 On `session_shutdown`, the extension sends `bye`, closes the socket, deletes its dashboard record, and clears timers.
 
@@ -56,6 +57,7 @@ Frame invariants:
 - Binary envelope: 4-byte big-endian target peer id, then IV, then ciphertext
 - Join link for production: `omp.rishav.io/r/<roomId>.<base64url(roomKey + writeToken)>`
 - Dashboard web link: `https://omp.rishav.io/client/#<joinLink>`
+- Dashboard launch endpoint: `POST https://omp.rishav.io/api/launches` with `{ "sessionId": "<dashboard record id>" }`; the server is Tailscale-bound and treats dashboard users as authorized.
 
 Guest frames handled:
 
@@ -66,6 +68,10 @@ Guest frames handled:
 - `fetch-transcript`: rejected with an empty transcript response
 
 Late joiners receive persisted safe entries from `ctx.sessionManager.getEntries()`. Live guests receive event/state frames; the extension does not synthesize an `entry` frame for every append.
+
+Dashboard control frames handled by the host:
+
+- `launch-request`: starts a new local Ghostty window running OMP in the active session's cwd. Override the app or command with `OMP_AUTO_COLLAB_LAUNCH_APP` and `OMP_AUTO_COLLAB_LAUNCH_COMMAND`.
 
 ## Wrapper invariant
 
@@ -120,7 +126,10 @@ Run from `~/dot/omp` unless noted.
 5. Relay protocol:
    - From a same-origin page such as `https://omp.rishav.io`, open the guest websocket for the room, send encrypted `hello`, and decrypt the `welcome` frame.
    - Expected: `welcome`, current `cwd`, persisted safe entries, and state participants.
-6. Shutdown cleanup:
+6. Dashboard launch:
+   - With a host websocket connected for a registered session, `POST https://omp.rishav.io/api/launches` with `{ "sessionId": "<id>" }`.
+   - Expected: HTTP 202 and the host websocket receives JSON `{ "t": "launch-request", ... }`.
+7. Shutdown cleanup:
    - Exit the launched OMP session.
    - Re-read `https://omp.rishav.io/api/sessions`.
    - The fresh record id must be gone within a few seconds.

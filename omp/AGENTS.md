@@ -14,7 +14,7 @@ Keep the split clear: checked-in files describe or launch tooling; runtime state
 - `omp-node-tools/` is a private npm language-server bundle. It has no package scripts; the lockfile is the source of truth for resolved Node tools.
 - `scripts/start-hindsight-login.sh` starts the local Hindsight Podman runtime. It starts the Podman machine if needed, waits for readiness, fingerprints the existing container by image/ports/mounts, and recreates only when those inputs differ.
 - `agent/extensions/auto-collab/index.ts` is intentionally only an absolute re-export to the real implementation in `/Users/xrisk/dot/omp/auto-collab-extension/index.ts`. Do not add logic to the shim.
-- Auto-collab runtime flow is documented in `auto-collab-extension/AGENTS.md`: OMP session start opens a quiet host websocket, registers a dashboard record at `https://omp.rishav.io/api/sessions`, refreshes it, relays encrypted guest frames, and deletes the record on shutdown.
+- Auto-collab runtime flow is documented in `auto-collab-extension/AGENTS.md`: OMP session start opens a quiet host websocket, registers a dashboard record at `https://omp.rishav.io/api/sessions`, refreshes it, relays encrypted guest frames, accepts dashboard launch requests for new local chats, and deletes the record on shutdown.
 
 ## Key Directories
 
